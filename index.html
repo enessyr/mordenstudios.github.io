@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Morden Studios</title>
-  <meta name="description" content="Morden Studios, Minecraft sunucusuyla benzersiz bir oyun deneyimi sunuyor. Katılın ve maceranıza hemen başlayın!">
+  <meta name="description" content="Morden Studios Minecraft server - Join us now!">
+  <meta name="keywords" content="Minecraft, Morden Studios, server, gaming, VIP, Minecraft Shop">
+  <meta name="author" content="Morden Studios">
+  <title>Morden Studios - Minecraft Server</title>
+  <link rel="icon" href="https://example.com/favicon.ico" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -13,7 +16,6 @@
       background: #0f2027;
       color: white;
       line-height: 1.6;
-      overflow-x: hidden;
       font-size: 16px;
     }
     header {
@@ -21,7 +23,6 @@
       text-align: center;
       background: rgba(0, 0, 0, 0.7);
       border-bottom: 2px solid #4df;
-      animation: slideDown 1s ease-out;
     }
     header h1 {
       font-family: 'Orbitron', sans-serif;
@@ -30,66 +31,15 @@
       text-transform: uppercase;
       letter-spacing: 3px;
     }
-    header nav {
-      margin-top: 1.5rem;
-    }
-    header nav a {
-      margin: 0 2rem;
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-      position: relative;
-      display: inline-block;
-    }
-    header nav a:hover {
-      color: #4df;
-    }
-    header nav a::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: 0;
-      height: 2px;
-      background-color: #4df;
-      transition: width 0.3s, left 0.3s;
-      left: 50%;
-    }
-    header nav a:hover::after {
-      width: 100%;
-      left: 0;
-    }
     section {
       padding: 4rem 10%;
       text-align: center;
-      animation: fadeIn 1s ease-out;
     }
     section h2 {
       color: #4df;
       margin-bottom: 1rem;
       font-size: 2.5rem;
       text-transform: uppercase;
-    }
-    section p {
-      font-size: 1.2rem;
-      color: #ccc;
-    }
-    .social {
-      margin-top: 2rem;
-    }
-    .social a {
-      color: #4df;
-      margin: 0 10px;
-      text-decoration: none;
-      font-size: 1.3rem;
-    }
-    footer {
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-      background: #000;
-      color: #aaa;
-      margin-top: 2rem;
     }
     .snowflake {
       position: fixed;
@@ -107,176 +57,78 @@
         opacity: 0;
       }
     }
-    @keyframes slideDown {
-      from { transform: translateY(-100%); }
-      to { transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @media (max-width: 768px) {
-      header h1 { font-size: 2.5rem; }
-      section { padding: 2rem 5%; }
-    }
-    /* Ayarlar Bölümü */
-    .settings {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 20px;
-      color: #fff;
-      border-radius: 10px;
+    #snow-intensity {
+      width: 100%;
+      margin: 20px auto;
       display: block;
     }
-    .settings h3 {
-      margin-bottom: 1rem;
-    }
-    .settings select, .settings input {
-      margin-bottom: 1rem;
-      padding: 0.5rem;
-      background: #333;
-      border: 1px solid #4df;
-      color: #fff;
-      border-radius: 5px;
-    }
-    .close-settings {
-      color: #4df;
-      cursor: pointer;
-      display: block;
+    footer {
       text-align: center;
-      margin-top: 1rem;
+      padding: 1rem;
+      font-size: 0.9rem;
+      background: #000;
+      color: #aaa;
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Morden Studios</h1>
-    <nav>
-      <a href="#hakkinda" id="aboutLink">Hakkında</a>
-      <a href="#katil" id="joinLink">Katıl</a>
-      <a href="javascript:void(0)" id="settingsLink">Ayarlar</a>
-    </nav>
   </header>
 
-  <section id="hakkinda">
-    <h2 id="aboutTitle">Sunucumuz Hakkında</h2>
-    <p id="aboutText">Yakında Minecraft sunucumuz hizmetinize açılacaktır.</p>
+  <section id="about">
+    <h2>About Our Server</h2>
+    <p>Our Minecraft server will be available soon for you to join and enjoy.</p>
   </section>
 
-  <section id="katil">
-    <h2>Sunucuya Katıl</h2>
-    <div class="social">
-      <a href="https://discord.gg/kwAnJQSS" target="_blank">📣 Discord</a>
-      |
-      <a href="https://www.instagram.com/morden_studios?igsh=ZDVmeWN4aW1vMTFk" target="_blank">📸 Instagram</a>
-    </div>
+  <section id="snow">
+    <h2>Snowfall Intensity</h2>
+    <label for="snow-intensity">Adjust Snowfall Intensity:</label>
+    <input type="range" id="snow-intensity" min="1" max="100" value="40">
+    <p>Current Intensity: <span id="snow-value">40</span>%</p>
   </section>
 
   <footer>
-    © 2025 Morden Studios | Tüm Hakları Saklıdır.
+    © 2025 Morden Studios | All Rights Reserved.
   </footer>
 
-  <!-- Ayarlar Bölümü -->
-  <div class="settings" id="settings">
-    <h3>Ayarlar</h3>
-    <label for="snowDensity">Kar Yoğunluğu:</label>
-    <input type="range" id="snowDensity" min="10" max="100" value="40">
-    <p>Yoğunluk: <span id="snowValue">40</span></p>
-
-    <label for="language">Dil Seçimi:</label>
-    <select id="language">
-      <option value="tr">Türkçe</option>
-      <option value="en">English</option>
-    </select>
-
-    <span class="close-settings" id="closeSettings">Kapat</span>
-  </div>
-
   <script>
-    // Kar yoğunluğunu ve dil değişimini kontrol etme
-    const snowCountInput = document.getElementById('snowDensity');
-    const snowValue = document.getElementById('snowValue');
-    const languageSelect = document.getElementById('language');
-    const settingsDiv = document.getElementById('settings');
-    const settingsLink = document.getElementById('settingsLink');
-    const closeSettings = document.getElementById('closeSettings');
-    const aboutTitle = document.getElementById('aboutTitle');
-    const aboutText = document.getElementById('aboutText');
+    // Kar Efekti - Snowfall
+    const snowCountSlider = document.getElementById('snow-intensity');
+    const snowValueDisplay = document.getElementById('snow-value');
+    const snowflakes = [];
 
-    // Kar efekti
-    function generateSnowflakes(snowCount) {
-      // Kar efektini temizle
-      const snowflakes = document.querySelectorAll('.snowflake');
-      snowflakes.forEach(snowflake => snowflake.remove());
+    snowValueDisplay.textContent = snowCountSlider.value;
 
-      // Yeni kar efekti oluştur
+    // Karın yoğunluğunu kontrol et
+    snowCountSlider.addEventListener('input', function() {
+      snowValueDisplay.textContent = snowCountSlider.value;
+      updateSnowfall(parseInt(snowCountSlider.value));
+    });
+
+    // Kar tanelerinin animasyonu ve oluşturulması
+    function updateSnowfall(snowCount) {
+      // İlk olarak tüm kar tanelerini temizle
+      snowflakes.forEach(snow => snow.remove());
+      snowflakes.length = 0; // Boşalt
+
+      // Yeni kar taneleri ekle
       for (let i = 0; i < snowCount; i++) {
         const snow = document.createElement('div');
         snow.classList.add('snowflake');
         snow.innerHTML = '❄';
         snow.style.left = Math.random() * 100 + 'vw';
-        snow.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        snow.style.animationDuration = (Math.random() * 5 + 5) + 's'; // Daha akıcı
         snow.style.fontSize = (Math.random() * 10 + 10) + 'px';
+        snow.style.animationDelay = Math.random() * 5 + 's'; // Farklı zamanlamalar
+        snow.style.animationTimingFunction = 'linear';
         document.body.appendChild(snow);
+        snowflakes.push(snow);
       }
     }
 
-    // Ayarları yükle
-    function loadSettings() {
-      let savedDensity = localStorage.getItem('snowDensity') || 40;
-      snowCountInput.value = savedDensity;
-      snowValue.textContent = savedDensity;
-      generateSnowflakes(savedDensity);
-
-      let savedLanguage = localStorage.getItem('language') || 'tr';
-      languageSelect.value = savedLanguage;
-      changeLanguage(savedLanguage);
-    }
-
-    // Dil değişikliği
-    function changeLanguage(language) {
-      if (language === 'en') {
-        aboutTitle.textContent = 'About Our Server';
-        aboutText.textContent = 'Our Minecraft server will be available soon for you.';
-        settingsLink.textContent = 'Settings';
-        closeSettings.textContent = 'Close';
-      } else {
-        aboutTitle.textContent = 'Sunucumuz Hakkında';
-        aboutText.textContent = 'Yakında Minecraft sunucumuz hizmetinize açılacaktır.';
-        settingsLink.textContent = 'Ayarlar';
-        closeSettings.textContent = 'Kapat';
-      }
-    }
-
-    // Kar yoğunluğu değişimi
-    snowCountInput.addEventListener('input', (event) => {
-      let density = event.target.value;
-      snowValue.textContent = density;
-      localStorage.setItem('snowDensity', density);
-      generateSnowflakes(density);
-    });
-
-    // Dil değişimi
-    languageSelect.addEventListener('change', (event) => {
-      let language = event.target.value;
-      localStorage.setItem('language', language);
-      changeLanguage(language);
-    });
-
-    // Ayarları göster/gizle
-    settingsLink.addEventListener('click', () => {
-      settingsDiv.style.display = settingsDiv.style.display === 'none' ? 'block' : 'none';
-    });
-
-    // Ayarları kapatma
-    closeSettings.addEventListener('click', () => {
-      settingsDiv.style.display = 'none';
-    });
-
-    // Sayfa yüklendiğinde ayarları yükle
-    loadSettings();
+    // Başlangıç yoğunluğu
+    updateSnowfall(parseInt(snowCountSlider.value));
   </script>
 </body>
 </html>
