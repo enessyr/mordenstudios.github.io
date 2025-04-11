@@ -9,7 +9,8 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Roboto', sans-serif;
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      background: url('https://example.com/minecraft-background.jpg') no-repeat center center fixed;
+      background-size: cover;
       color: white;
       line-height: 1.6;
       overflow-x: hidden;
@@ -40,10 +41,9 @@
       color: #4df;
       margin-bottom: 1rem;
     }
-    ul { list-style: none; }
-    ul li::before {
-      content: "★ ";
-      color: #4df;
+    section p {
+      font-size: 1.2rem;
+      color: #ddd;
     }
     .social {
       margin-top: 2rem;
@@ -87,29 +87,19 @@
     <h1>Morden Studios</h1>
     <nav>
       <a href="#hakkinda">Hakkında</a>
-      <a href="#ozellikler">Özellikler</a>
       <a href="#katil">Katıl</a>
     </nav>
   </header>
 
   <section id="hakkinda">
     <h2>Sunucumuz Hakkında</h2>
-    <p>Yakında Minecraft sunucumuz sizlerin hizmetinize açılacaktır</p>
-  </section>
-
-  <section id="ozellikler">
-    <h2>Öne Çıkan Özellikler</h2>
-    <ul>
-      <li>Sadece Survival modu</li>
-    </ul>
+    <p>Yakında Minecraft sunucumuz hizmetinize açılacaktır.</p>
   </section>
 
   <section id="katil">
     <h2>Sunucuya Katıl</h2>
     <p><strong>IP Adresi:</strong> play.mordenstudios.net</p>
     <div class="social">
-      <a href="https://discord.gg/xxxxxx" target="_blank">📣 Discord</a>
-      |
       <a href="https://www.instagram.com/morden_studios?igsh=ZDVmeWN4aW1vMTFk" target="_blank">📸 Instagram</a>
     </div>
   </section>
