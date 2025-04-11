@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Morden Studios</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: white;
+      line-height: 1.6;
+    }
+    header {
+      padding: 2rem;
+      text-align: center;
+      background: rgba(0, 0, 0, 0.6);
+      border-bottom: 2px solid #4df;
+    }
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem;
+      color: #4df;
+    }
+    nav {
+      margin-top: 1rem;
+    }
+    nav a {
+      margin: 0 1rem;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    section {
+      padding: 3rem 10%;
+      border-bottom: 1px solid #333;
+    }
+    section h2 {
+      color: #4df;
+      margin-bottom: 1rem;
+    }
+    ul {
+      list-style: none;
+    }
+    ul li::before {
+      content: "★ ";
+      color: #4df;
+    }
+    .button {
+      display: inline-block;
+      background: #4df;
+      color: #000;
+      padding: 10px 20px;
+      border-radius: 10px;
+      margin-top: 1rem;
+      text-decoration: none;
+      transition: 0.3s ease;
+    }
+    .button:hover {
+      background: #00bfff;
+      color: #fff;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      background: #000;
+      color: #aaa;
+    }
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      section {
+        padding: 2rem 5%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Morden Studios</h1>
+    <nav>
+      <a href="#hakkinda">Hakkında</a>
+      <a href="#ozellikler">Özellikler</a>
+      <a href="#katil">Katıl</a>
+    </nav>
+  </header>
+
+  <section id="hakkinda">
+    <h2>Sunucumuz Hakkında</h2>
+    <p>Morden Studios, özgün RPG sistemleri, rol yapma öğeleri ve topluluk tabanlı savaş mekanikleri ile Minecraft deneyiminizi zirveye taşıyan özel bir sunucudur.</p>
+  </section>
+
+  <section id="ozellikler">
+    <h2>Öne Çıkan Özellikler</h2>
+    <ul>
+      <li>Fraksiyonlar & Bölgeler</li>
+      <li>Gelişmiş Ekonomi Sistemi</li>
+      <li>Rol Yapma Görevleri</li>
+      <li>Sunucu Etkinlikleri & Turnuvalar</li>
+    </ul>
+  </section>
+
+  <section id="katil">
+    <h2>Sunucuya Katıl</h2>
+    <p><strong>IP Adresi:</strong> play.mordenstudios.net</p>
+    <a href="https://discord.gg/xxxxxx" class="button">Discord'a Katıl</a>
+  </section>
+
+  <footer>
+    © 2025 Morden Studios | Tüm Hakları Saklıdır.
+  </footer>
+</body>
+</html>
