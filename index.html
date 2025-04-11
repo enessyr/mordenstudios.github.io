@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -119,6 +120,27 @@
       header h1 { font-size: 2.5rem; }
       section { padding: 2rem 5%; }
     }
+    /* Ayarlar Bölümü */
+    .settings {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      color: #fff;
+      border-radius: 10px;
+    }
+    .settings h3 {
+      margin-bottom: 1rem;
+    }
+    .settings select, .settings input {
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      background: #333;
+      border: 1px solid #4df;
+      color: #fff;
+      border-radius: 5px;
+    }
   </style>
 </head>
 <body>
@@ -127,6 +149,7 @@
     <nav>
       <a href="#hakkinda">Hakkında</a>
       <a href="#katil">Katıl</a>
+      <a href="#settings" id="settingsLink">Ayarlar</a>
     </nav>
   </header>
 
@@ -148,19 +171,74 @@
     © 2025 Morden Studios | Tüm Hakları Saklıdır.
   </footer>
 
+  <!-- Ayarlar Bölümü -->
+  <div class="settings" id="settings">
+    <h3>Ayarlar</h3>
+    <label for="snowDensity">Kar Yoğunluğu:</label>
+    <input type="range" id="snowDensity" min="10" max="100" value="40">
+    <p>Yoğunluk: <span id="snowValue">40</span></p>
+
+    <label for="language">Dil Seçimi:</label>
+    <select id="language">
+      <option value="tr">Türkçe</option>
+      <option value="en">English</option>
+    </select>
+  </div>
+
   <script>
+    // Kar yoğunluğunu ve dil değişimini kontrol etme
+    const snowCountInput = document.getElementById('snowDensity');
+    const snowValue = document.getElementById('snowValue');
+    const languageSelect = document.getElementById('language');
+    const settingsDiv = document.getElementById('settings');
+
     // Kar efekti
-    const snowCount = 40;
-    for (let i = 0; i < snowCount; i++) {
-      const snow = document.createElement('div');
-      snow.classList.add('snowflake');
-      snow.innerHTML = '❄';
-      snow.style.left = Math.random() * 100 + 'vw';
-      snow.style.animationDuration = (Math.random() * 5 + 5) + 's';
-      snow.style.fontSize = (Math.random() * 10 + 10) + 'px';
-      document.body.appendChild(snow);
+    function generateSnowflakes(snowCount) {
+      // Kar efektini temizle
+      const snowflakes = document.querySelectorAll('.snowflake');
+      snowflakes.forEach(snowflake => snowflake.remove());
+
+      // Yeni kar efekti oluştur
+      for (let i = 0; i < snowCount; i++) {
+        const snow = document.createElement('div');
+        snow.classList.add('snowflake');
+        snow.innerHTML = '❄';
+        snow.style.left = Math.random() * 100 + 'vw';
+        snow.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        snow.style.fontSize = (Math.random() * 10 + 10) + 'px';
+        document.body.appendChild(snow);
+      }
     }
+
+    // Ayarları yükle
+    function loadSettings() {
+      let savedDensity = localStorage.getItem('snowDensity') || 40;
+      snowCountInput.value = savedDensity;
+      snowValue.textContent = savedDensity;
+      generateSnowflakes(savedDensity);
+
+      let savedLanguage = localStorage.getItem('language') || 'tr';
+      languageSelect.value = savedLanguage;
+      // Dil değişikliği sonrası metinleri güncellemek için daha fazla dil ayarı ekleyebilirsiniz
+    }
+
+    // Kar yoğunluğu değişimi
+    snowCountInput.addEventListener('input', (event) => {
+      let density = event.target.value;
+      snowValue.textContent = density;
+      localStorage.setItem('snowDensity', density);
+      generateSnowflakes(density);
+    });
+
+    // Dil değişimi
+    languageSelect.addEventListener('change', (event) => {
+      let language = event.target.value;
+      localStorage.setItem('language', language);
+      // Dil değişiminde metinlerin güncellenmesi için ekleme yapabilirsiniz
+    });
+
+    // Sayfa yüklendiğinde ayarları yükle
+    loadSettings();
   </script>
 </body>
 </html>
-
