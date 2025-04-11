@@ -9,41 +9,69 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Roboto', sans-serif;
-      background: url('https://example.com/minecraft-background.jpg') no-repeat center center fixed;
-      background-size: cover;
+      background: #0f2027;
       color: white;
       line-height: 1.6;
       overflow-x: hidden;
+      font-size: 16px;
     }
     header {
-      padding: 2rem;
+      padding: 3rem;
       text-align: center;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.7);
       border-bottom: 2px solid #4df;
+      animation: slideDown 1s ease-out;
     }
     header h1 {
       font-family: 'Orbitron', sans-serif;
-      font-size: 3rem;
+      font-size: 3.5rem;
       color: #4df;
+      text-transform: uppercase;
+      letter-spacing: 3px;
     }
-    nav { margin-top: 1rem; }
-    nav a {
-      margin: 0 1rem;
+    header nav {
+      margin-top: 1.5rem;
+    }
+    header nav a {
+      margin: 0 2rem;
       color: #fff;
       text-decoration: none;
       font-weight: bold;
+      position: relative;
+      display: inline-block;
+    }
+    header nav a:hover {
+      color: #4df;
+    }
+    header nav a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background-color: #4df;
+      transition: width 0.3s, left 0.3s;
+      left: 50%;
+    }
+    header nav a:hover::after {
+      width: 100%;
+      left: 0;
     }
     section {
-      padding: 3rem 10%;
-      border-bottom: 1px solid #333;
+      padding: 4rem 10%;
+      text-align: center;
+      animation: fadeIn 1s ease-out;
     }
     section h2 {
       color: #4df;
       margin-bottom: 1rem;
+      font-size: 2.5rem;
+      text-transform: uppercase;
     }
     section p {
       font-size: 1.2rem;
-      color: #ddd;
+      color: #ccc;
     }
     .social {
       margin-top: 2rem;
@@ -52,6 +80,7 @@
       color: #4df;
       margin: 0 10px;
       text-decoration: none;
+      font-size: 1.3rem;
     }
     footer {
       text-align: center;
@@ -59,6 +88,7 @@
       font-size: 0.9rem;
       background: #000;
       color: #aaa;
+      margin-top: 2rem;
     }
     .snowflake {
       position: fixed;
@@ -76,8 +106,16 @@
         opacity: 0;
       }
     }
+    @keyframes slideDown {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
     @media (max-width: 768px) {
-      header h1 { font-size: 2rem; }
+      header h1 { font-size: 2.5rem; }
       section { padding: 2rem 5%; }
     }
   </style>
@@ -93,13 +131,15 @@
 
   <section id="hakkinda">
     <h2>Sunucumuz Hakkında</h2>
-    <p>Yakında Minecraft sunucumuz hizmetinize açılacaktır.</p>
+    <p>Yakında Minecraft sunucumun hizmetinize açılacaktır.</p>
   </section>
 
   <section id="katil">
     <h2>Sunucuya Katıl</h2>
     <p><strong>IP Adresi:</strong> play.mordenstudios.net</p>
     <div class="social">
+      <a href="https://discord.gg/kwAnJQSS" target="_blank">📣 Discord</a>
+      |
       <a href="https://www.instagram.com/morden_studios?igsh=ZDVmeWN4aW1vMTFk" target="_blank">📸 Instagram</a>
     </div>
   </section>
