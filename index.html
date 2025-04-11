@@ -128,6 +128,7 @@
       padding: 20px;
       color: #fff;
       border-radius: 10px;
+      display: block;
     }
     .settings h3 {
       margin-bottom: 1rem;
@@ -140,21 +141,28 @@
       color: #fff;
       border-radius: 5px;
     }
+    .close-settings {
+      color: #4df;
+      cursor: pointer;
+      display: block;
+      text-align: center;
+      margin-top: 1rem;
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>Morden Studios</h1>
     <nav>
-      <a href="#hakkinda">Hakkında</a>
-      <a href="#katil">Katıl</a>
-      <a href="#settings" id="settingsLink">Ayarlar</a>
+      <a href="#hakkinda" id="aboutLink">Hakkında</a>
+      <a href="#katil" id="joinLink">Katıl</a>
+      <a href="javascript:void(0)" id="settingsLink">Ayarlar</a>
     </nav>
   </header>
 
   <section id="hakkinda">
-    <h2>Sunucumuz Hakkında</h2>
-    <p>Yakında Minecraft sunucumuz hizmetinize açılacaktır.</p>
+    <h2 id="aboutTitle">Sunucumuz Hakkında</h2>
+    <p id="aboutText">Yakında Minecraft sunucumuz hizmetinize açılacaktır.</p>
   </section>
 
   <section id="katil">
@@ -182,6 +190,8 @@
       <option value="tr">Türkçe</option>
       <option value="en">English</option>
     </select>
+
+    <span class="close-settings" id="closeSettings">Kapat</span>
   </div>
 
   <script>
@@ -190,6 +200,10 @@
     const snowValue = document.getElementById('snowValue');
     const languageSelect = document.getElementById('language');
     const settingsDiv = document.getElementById('settings');
+    const settingsLink = document.getElementById('settingsLink');
+    const closeSettings = document.getElementById('closeSettings');
+    const aboutTitle = document.getElementById('aboutTitle');
+    const aboutText = document.getElementById('aboutText');
 
     // Kar efekti
     function generateSnowflakes(snowCount) {
@@ -218,7 +232,22 @@
 
       let savedLanguage = localStorage.getItem('language') || 'tr';
       languageSelect.value = savedLanguage;
-      // Dil değişikliği sonrası metinleri güncellemek için daha fazla dil ayarı ekleyebilirsiniz
+      changeLanguage(savedLanguage);
+    }
+
+    // Dil değişikliği
+    function changeLanguage(language) {
+      if (language === 'en') {
+        aboutTitle.textContent = 'About Our Server';
+        aboutText.textContent = 'Our Minecraft server will be available soon for you.';
+        settingsLink.textContent = 'Settings';
+        closeSettings.textContent = 'Close';
+      } else {
+        aboutTitle.textContent = 'Sunucumuz Hakkında';
+        aboutText.textContent = 'Yakında Minecraft sunucumuz hizmetinize açılacaktır.';
+        settingsLink.textContent = 'Ayarlar';
+        closeSettings.textContent = 'Kapat';
+      }
     }
 
     // Kar yoğunluğu değişimi
@@ -233,7 +262,17 @@
     languageSelect.addEventListener('change', (event) => {
       let language = event.target.value;
       localStorage.setItem('language', language);
-      // Dil değişiminde metinlerin güncellenmesi için ekleme yapabilirsiniz
+      changeLanguage(language);
+    });
+
+    // Ayarları göster/gizle
+    settingsLink.addEventListener('click', () => {
+      settingsDiv.style.display = settingsDiv.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Ayarları kapatma
+    closeSettings.addEventListener('click', () => {
+      settingsDiv.style.display = 'none';
     });
 
     // Sayfa yüklendiğinde ayarları yükle
@@ -241,4 +280,3 @@
   </script>
 </body>
 </html>
-
