@@ -6,16 +6,13 @@
   <title>Morden Studios</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Roboto', sans-serif;
       background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
       color: white;
       line-height: 1.6;
+      overflow-x: hidden;
     }
     header {
       padding: 2rem;
@@ -28,9 +25,7 @@
       font-size: 3rem;
       color: #4df;
     }
-    nav {
-      margin-top: 1rem;
-    }
+    nav { margin-top: 1rem; }
     nav a {
       margin: 0 1rem;
       color: #fff;
@@ -45,9 +40,7 @@
       color: #4df;
       margin-bottom: 1rem;
     }
-    ul {
-      list-style: none;
-    }
+    ul { list-style: none; }
     ul li::before {
       content: "★ ";
       color: #4df;
@@ -73,12 +66,32 @@
       background: #000;
       color: #aaa;
     }
+    .social {
+      margin-top: 2rem;
+    }
+    .social a {
+      color: #4df;
+      margin: 0 10px;
+      text-decoration: none;
+    }
     @media (max-width: 768px) {
-      header h1 {
-        font-size: 2rem;
-      }
-      section {
-        padding: 2rem 5%;
+      header h1 { font-size: 2rem; }
+      section { padding: 2rem 5%; }
+    }
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      z-index: 9999;
+      user-select: none;
+      pointer-events: none;
+      color: #fff;
+      font-size: 1.2rem;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
       }
     }
   </style>
@@ -112,10 +125,29 @@
     <h2>Sunucuya Katıl</h2>
     <p><strong>IP Adresi:</strong> play.mordenstudios.net</p>
     <a href="https://discord.gg/xxxxxx" class="button">Discord'a Katıl</a>
+    <div class="social">
+      <a href="https://discord.gg/xxxxxx" target="_blank">📣 Discord</a>
+      |
+      <a href="https://www.instagram.com/morden_studios?igsh=ZDVmeWN4aW1vMTFk" target="_blank">📸 Instagram</a>
+    </div>
   </section>
 
   <footer>
     © 2025 Morden Studios | Tüm Hakları Saklıdır.
   </footer>
+
+  <script>
+    // Kar efekti
+    const snowCount = 40;
+    for (let i = 0; i < snowCount; i++) {
+      const snow = document.createElement('div');
+      snow.classList.add('snowflake');
+      snow.innerHTML = '❄';
+      snow.style.left = Math.random() * 100 + 'vw';
+      snow.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      snow.style.fontSize = (Math.random() * 10 + 10) + 'px';
+      document.body.appendChild(snow);
+    }
+  </script>
 </body>
 </html>
