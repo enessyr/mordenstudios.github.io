@@ -131,43 +131,17 @@
       color: #ff3333;
       font-size: 1rem;
       margin-top: 1rem;
-      opacity: 0;
-      animation: fadeIn 2s forwards;
-    }
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
-    }
-
-    /* Mobil uyumluluk için düzenleme */
-    @media (max-width: 768px) {
-      header h1 {
-        font-size: 2.5rem;
-      }
-      section {
-        padding: 2rem 5%;
-      }
-      .social a {
-        font-size: 1rem;
-      }
-      footer {
-        font-size: 0.9rem;
-      }
     }
   </style>
 </head>
 <body>
   <div id="loginOverlay" class="login-overlay">
     <div class="login-box">
-      <h2>Giriş / Kayıt</h2>
+      <h2>Giriş Yap</h2>
       <input type="text" id="username" placeholder="Kullanıcı Adı" required>
       <input type="password" id="password" placeholder="Şifre" required>
-      <button onclick="login()">Giriş Yap / Kayıt Ol</button>
-      <p class="error-message" id="error-message">Geçersiz kullanıcı adı veya şifre. Lütfen tekrar deneyin.</p>
+      <button onclick="login()">Giriş Yap</button>
+      <p class="error-message" id="errorMessage" style="display: none;">Geçersiz kullanıcı adı veya şifre. Lütfen tekrar deneyin.</p>
     </div>
   </div>
 
@@ -220,21 +194,22 @@
   </footer>
 
   <script>
-    // Giriş sistemi
+    // Giriş işlemi
     function login() {
       const u = document.getElementById('username').value;
       const p = document.getElementById('password').value;
-      const errorMessage = document.getElementById('error-message');
+      const validUsername = 'admin'; // Örnek kullanıcı adı
+      const validPassword = '1234'; // Örnek şifre
 
-      // Kullanıcı adı ve şifreyi kontrol ediyoruz
-      if (u === "admin" && p === "1234") {
+      if (u === validUsername && p === validPassword) {
         localStorage.setItem("loggedIn", "true");
         document.getElementById('loginOverlay').style.display = 'none';
       } else {
-        errorMessage.style.opacity = '1'; // Hata mesajını göster
+        document.getElementById('errorMessage').style.display = 'block';
       }
     }
 
+    // Sayfa yüklenince giriş kontrolü
     if (localStorage.getItem("loggedIn") !== "true") {
       document.getElementById('loginOverlay').style.display = 'flex';
     }
