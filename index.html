@@ -1,25 +1,24 @@
-<!DOCTYPE html><html lang="tr">
+<!DOCTYPE html>
+<html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Morden Studios - Yakında Minecraft sunucumuz hizmetinize açılacaktır.">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Morden Studios</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet"/>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Roboto', sans-serif;
+      background: url('arkaplan.png') no-repeat center center fixed;
       background-size: cover;
-      background-attachment: fixed;
       color: white;
       line-height: 1.6;
       overflow-x: hidden;
-      transition: background-image 1s ease-in-out;
     }
     header {
-      background: rgba(0, 0, 0, 0.7);
       padding: 2rem;
       text-align: center;
+      background: rgba(0, 0, 0, 0.6);
       border-bottom: 2px solid #4df;
     }
     header h1 {
@@ -35,58 +34,28 @@
     }
     section {
       padding: 3rem 10%;
-      background: rgba(0, 0, 0, 0.6);
-      margin: 2rem auto;
-      border-radius: 15px;
-      max-width: 1000px;
+      border-bottom: 1px solid #333;
+      background-color: rgba(0, 0, 0, 0.6);
     }
     section h2 {
       color: #4df;
       margin-bottom: 1rem;
-      text-align: center;
-    }
-    .social {
-      text-align: center;
-      margin-top: 1rem;
     }
     .social a {
-      margin: 0 1rem;
-      text-decoration: none;
       color: #4df;
-      font-weight: bold;
-    }
-    .settings-toggle {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      background: #4df;
-      color: black;
-      padding: 10px;
-      cursor: pointer;
-      border-radius: 8px;
-      z-index: 1000;
-    }
-    .settings {
-      display: none;
-      position: fixed;
-      top: 50px;
-      right: 10px;
-      background: rgba(0,0,0,0.8);
-      padding: 20px;
-      border-radius: 10px;
-      z-index: 1000;
+      margin: 0 10px;
+      text-decoration: none;
     }
     footer {
       text-align: center;
       padding: 1rem;
-      background: rgba(0, 0, 0, 0.8);
-      color: #aaa;
       font-size: 0.9rem;
+      background: #000;
+      color: #aaa;
     }
     .snowflake {
-      position: absolute;
+      position: fixed;
       top: -10px;
-      z-index: 9999;
       user-select: none;
       pointer-events: none;
       color: #fff;
@@ -99,92 +68,107 @@
         opacity: 0;
       }
     }
+    .settings {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.8);
+      padding: 1rem;
+      border-radius: 10px;
+      display: none;
+    }
+    .settings label {
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .toggle-settings {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: #4df;
+      color: #000;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <div class="settings-toggle" onclick="toggleSettings()">Ayarlar</div>
+  <button class="toggle-settings" onclick="toggleSettings()">Ayarlar</button>
   <div class="settings" id="settingsPanel">
-    <label>Kar Yoğunluğu: <input type="range" min="10" max="100" value="40" id="snowRange"></label><br><br>
-    <label>Dil: 
-      <select id="langSelect" onchange="changeLanguage()">
+    <label>
+      Kar Yoğunluğu:
+      <input type="range" id="snowIntensity" min="10" max="100" value="40" />
+    </label>
+    <label>
+      Dil:
+      <select id="languageSelect" onchange="changeLanguage()">
         <option value="tr">Türkçe</option>
         <option value="en">English</option>
       </select>
     </label>
-    <br><br>
-    <button onclick="toggleSettings()">Kapat</button>
-  </div>  <header>
+  </div>
+
+  <header>
     <h1>Morden Studios</h1>
     <nav>
       <a href="#hakkinda">Hakkında</a>
-      <a href="#katil">Katıl</a>
-      <a href="#magaza">Mağaza</a>
+      <a href="#iletisim">İletişim</a>
     </nav>
-  </header>  <section id="hakkinda">
-    <h2 data-tr="Hakkımızda" data-en="About Us">Hakkımızda</h2>
-    <p data-tr="Yakında Minecraft sunucumuz hizmetinize açılacaktır." data-en="Our Minecraft server will be available soon.">Yakında Minecraft sunucumuz hizmetinize açılacaktır.</p>
-  </section>  <section id="katil">
-    <h2 data-tr="Topluluğa Katıl" data-en="Join the Community">Topluluğa Katıl</h2>
+  </header>
+
+  <section id="hakkinda">
+    <h2 data-tr="Sunucumuz Hakkında" data-en="About Our Server">Sunucumuz Hakkında</h2>
+    <p data-tr="Yakında Minecraft sunucumuz hizmetinize açılacaktır" data-en="Our Minecraft server will soon be available for you">Yakında Minecraft sunucumuz hizmetinize açılacaktır</p>
+  </section>
+
+  <section id="iletisim">
+    <h2 data-tr="İletişim" data-en="Contact">İletişim</h2>
+    <p><strong>Email:</strong> <a href="mailto:sayarenes34@gmail.com">sayarenes34@gmail.com</a></p>
     <div class="social">
-      <a href="https://discord.gg/jtTN7eWBuE" target="_blank">Discord</a>
-      <a href="https://www.youtube.com/@morden_studios" target="_blank">YouTube</a>
+      <a href="https://discord.gg/jtTN7eWBuE" target="_blank">Discord</a> |
+      <a href="https://www.youtube.com/@morden_studios" target="_blank">YouTube</a> |
       <a href="https://www.instagram.com/morden_studios?igsh=ZDVmeWN4aW1vMTFk" target="_blank">Instagram</a>
     </div>
-  </section>  <section id="magaza">
-    <h2 data-tr="Mağaza" data-en="Store">Mağaza</h2>
-    <p data-tr="VIP paketleri ve özel içerikler yakında burada satışa sunulacaktır." data-en="VIP packages and exclusive content will be available here soon.">VIP paketleri ve özel içerikler yakında burada satışa sunulacaktır.</p>
-  </section>  <footer>
+  </section>
+
+  <footer>
     © 2025 Morden Studios | Tüm Hakları Saklıdır.
-  </footer>  <script>
-    function toggleSettings() {
-      const panel = document.getElementById('settingsPanel');
-      panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-    }
+  </footer>
 
-    function changeLanguage() {
-      const lang = document.getElementById('langSelect').value;
-      document.querySelectorAll('[data-tr]').forEach(el => {
-        el.innerText = el.getAttribute('data-' + lang);
-      });
-    }
-
-    // Dynamic seasonal background
-    const month = new Date().getMonth();
-    const backgrounds = [
-      'https://wallpapercave.com/wp/wp11022916.jpg', // Winter
-      'https://wallpapercave.com/wp/wp10557020.jpg', // Spring
-      'https://wallpapercave.com/wp/wp11022922.jpg', // Summer
-      'https://wallpapercave.com/wp/wp11214267.jpg'  // Autumn
-    ];
-    let seasonIndex = 0;
-    if (month >= 2 && month <= 4) seasonIndex = 1; // Spring
-    else if (month >= 5 && month <= 7) seasonIndex = 2; // Summer
-    else if (month >= 8 && month <= 10) seasonIndex = 3; // Autumn
-    else seasonIndex = 0; // Winter
-    document.body.style.backgroundImage = `url('${backgrounds[seasonIndex]}')`;
-
-    // Snowfall
-    let snowflakes = [];
-    function createSnowflakes(count) {
-      snowflakes.forEach(s => s.remove());
-      snowflakes = [];
-      for (let i = 0; i < count; i++) {
+  <script>
+    let snowCount = 40;
+    const createSnow = () => {
+      document.querySelectorAll('.snowflake').forEach(e => e.remove());
+      for (let i = 0; i < snowCount; i++) {
         const snow = document.createElement('div');
         snow.classList.add('snowflake');
         snow.innerHTML = '❄';
         snow.style.left = Math.random() * 100 + 'vw';
-        snow.style.top = Math.random() * 100 + 'vh';
         snow.style.animationDuration = (Math.random() * 5 + 5) + 's';
         snow.style.fontSize = (Math.random() * 10 + 10) + 'px';
         document.body.appendChild(snow);
-        snowflakes.push(snow);
       }
-    }
+    };
+    createSnow();
 
-    document.getElementById('snowRange').addEventListener('input', function() {
-      createSnowflakes(this.value);
+    document.getElementById('snowIntensity').addEventListener('input', (e) => {
+      snowCount = e.target.value;
+      createSnow();
     });
 
-    createSnowflakes(40);
-  </script></body>
+    function toggleSettings() {
+      const panel = document.getElementById("settingsPanel");
+      panel.style.display = panel.style.display === "block" ? "none" : "block";
+    }
+
+    function changeLanguage() {
+      const lang = document.getElementById("languageSelect").value;
+      document.querySelectorAll("[data-tr]").forEach(el => {
+        el.innerText = el.getAttribute(`data-${lang}`);
+      });
+    }
+  </script>
+</body>
 </html>
