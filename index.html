@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="tr">
+<!DOCTYPE html><html lang="tr">
 <head>
   <meta charset="UTF-8">
   <title>Morden Studios - Minecraft Sunucusu</title>
@@ -10,6 +9,7 @@
       background: linear-gradient(to bottom, #1e1e2f, #3e4e5e);
       margin: 0;
       color: white;
+      overflow-x: hidden;
     }
     header {
       background-color: #121827;
@@ -81,25 +81,45 @@
       color: #00ffcc;
       text-decoration: none;
     }
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      z-index: 9999;
+      user-select: none;
+      pointer-events: none;
+      color: #fff;
+      font-size: 1rem;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+    #settings {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: #222;
+      color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      z-index: 10000;
+    }
   </style>
 </head>
-<body>
-
-<header>
+<body><header>
   <h1>Morden Studios</h1>
   <nav>
     <a href="#hakkinda">Hakkında</a>
     <a href="#magaza">Mağaza</a>
     <a href="#iletisim">İletişim</a>
   </nav>
-</header>
-
-<section id="hakkinda">
+</header><section id="hakkinda">
   <h2>Hakkımızda</h2>
   <p>Yakında Minecraft Sunucumuz hizmetinize açılacaktır!</p>
-</section>
-
-<section id="magaza">
+</section><section id="magaza">
   <h2>Mağaza</h2>
   <div class="store">
     <div class="product">
@@ -108,9 +128,7 @@
       <button class="buy-button">Satın Al</button>
     </div>
   </div>
-</section>
-
-<section id="iletisim">
+</section><section id="iletisim">
   <h2>İletişim</h2>
   <p><strong>Email:</strong> <a href="mailto:sayarenes34@gmail.com" style="color:#00ffcc;">sayarenes34@gmail.com</a></p>
   <div class="social">
@@ -118,11 +136,59 @@
     <a href="https://www.youtube.com/@morden_studios" target="_blank">YouTube</a> |
     <a href="https://www.instagram.com/morden_studios?igsh=ZDVmeWN4aW1vMTFk" target="_blank">Instagram</a>
   </div>
-</section>
-
-<footer>
+</section><section id="auth">
+  <h2>Giriş / Kayıt</h2>
+  <form>
+    <input type="text" placeholder="Kullanıcı Adı" required>
+    <input type="password" placeholder="Şifre" required>
+    <button class="buy-button">Giriş Yap</button>
+    <p><a href="#">Hesabınız yok mu? Kayıt olun</a></p>
+  </form>
+</section><div id="settings">
+  <label>Kar Yoğunluğu:
+    <input type="range" min="5" max="100" value="40" id="snowRange">
+  </label>
+  <br><label>Dil:
+    <select id="langSwitch">
+      <option value="tr">Türkçe</option>
+      <option value="en">English</option>
+    </select>
+  </label>
+</div><footer>
   © 2025 Morden Studios - Minecraft dünyasına hoş geldiniz!
-</footer>
+</footer><script>
+  let snowCount = 40;
+  const createSnow = () => {
+    document.querySelectorAll('.snowflake').forEach(el => el.remove());
+    for (let i = 0; i < snowCount; i++) {
+      const snow = document.createElement('div');
+      snow.classList.add('snowflake');
+      snow.innerHTML = '•';
+      snow.style.left = Math.random() * 100 + 'vw';
+      snow.style.animationDuration = (Math.random() * 5 + 5) + 's';
+      snow.style.fontSize = (Math.random() * 8 + 8) + 'px';
+      document.body.appendChild(snow);
+    }
+  }
+  createSnow();
+  document.getElementById('snowRange').addEventListener('input', function() {
+    snowCount = parseInt(this.value);
+    createSnow();
+  });
 
-</body>
+  document.getElementById('langSwitch').addEventListener('change', function() {
+    if (this.value === 'en') {
+      document.querySelector('h1').textContent = 'Morden Studios';
+      document.querySelector('#hakkinda h2').textContent = 'About Us';
+      document.querySelector('#hakkinda p').textContent = 'Our Minecraft server will be launched soon!';
+      document.querySelector('#magaza h2').textContent = 'Store';
+      document.querySelector('#magaza .product h3').textContent = 'VIP Package';
+      document.querySelector('#magaza .product p').textContent = 'Exclusive perks and more on the server!';
+      document.querySelector('#iletisim h2').textContent = 'Contact';
+      document.querySelector('#auth h2').textContent = 'Login / Register';
+    } else {
+      location.reload();
+    }
+  });
+</script></body>
 </html>
