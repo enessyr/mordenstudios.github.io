@@ -94,7 +94,6 @@
     <h1>Morden Studios</h1>
     <nav>
       <a href="#hakkinda">Hakkında</a>
-      <a href="#magaza">Mağaza</a>
       <a href="#iletisim">İletişim</a>
       <a href="javascript:void(0)" onclick="toggleSettings()">Ayarlar</a>
     </nav>
@@ -117,18 +116,56 @@
     <p id="desc">Yakında Minecraft Sunucumuz hizmetinize açılacaktır</p>
   </section>
 
-  <section id="magaza">
-    <h2>Mağaza</h2>
-    <ul>
-      <li><a href="#">Eşyalar</a></li>
-      <li><a href="#">Paketler</a></li>
-      <li><a href="#">Üyelikler</a></li>
-    </ul>
+  <section id="iletisim">
+    <h2>İletişim & Sosyal Medya</h2>
+    <div class="social">
+      <a href="https://discord.gg/jtTN7eWBuE" target="_blank">Discord</a>
+      <a href="https://www.youtube.com/@morden_studios" target="_blank">YouTube</a>
+      <a href="https://www.instagram.com/morden_studios?igsh=ZDVmeWN4aW1vMTFk" target="_blank">Instagram</a>
+      <p>İletişim: sayarenes34@gmail.com</p>
+    </div>
   </section>
 
   <footer>
     <p>&copy; 2025 Morden Studios | Tüm Hakları Saklıdır</p>
   </footer>
+
+  <script>
+    // Ayarlar paneli
+    function toggleSettings() {
+      const s = document.getElementById('settings');
+      s.style.display = s.style.display === 'none' ? 'block' : 'none';
+    }
+
+    // Dil değiştirme
+    function changeLang() {
+      const lang = document.getElementById("langSelect").value;
+      const desc = document.getElementById("desc");
+      if (lang === "en") {
+        desc.textContent = "Our Minecraft server will be available soon.";
+      } else {
+        desc.textContent = "Yakında Minecraft Sunucumuz hizmetinize açılacaktır";
+      }
+    }
+
+    // Kar efekti
+    let snowflakes = [];
+    function updateSnow() {
+      document.querySelectorAll('.snowflake').forEach(el => el.remove());
+      const count = document.getElementById('snowCountRange').value;
+      for (let i = 0; i < count; i++) {
+        const snow = document.createElement('div');
+        snow.classList.add('snowflake');
+        snow.innerHTML = '•';
+        snow.style.left = Math.random() * 100 + 'vw';
+        snow.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        snow.style.fontSize = (Math.random() * 10 + 10) + 'px';
+        document.body.appendChild(snow);
+        snowflakes.push(snow);
+      }
+    }
+    updateSnow();
+  </script>
 
 </body>
 </html>
