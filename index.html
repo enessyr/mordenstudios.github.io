@@ -127,6 +127,21 @@
     .login-box button:hover {
       background: #00ccff;
     }
+    .error-message {
+      color: #ff3333;
+      font-size: 1rem;
+      margin-top: 1rem;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
 
     /* Mobil uyumluluk için düzenleme */
     @media (max-width: 768px) {
@@ -152,6 +167,7 @@
       <input type="text" id="username" placeholder="Kullanıcı Adı" required>
       <input type="password" id="password" placeholder="Şifre" required>
       <button onclick="login()">Giriş Yap / Kayıt Ol</button>
+      <p class="error-message" id="error-message">Geçersiz kullanıcı adı veya şifre. Lütfen tekrar deneyin.</p>
     </div>
   </div>
 
@@ -208,11 +224,14 @@
     function login() {
       const u = document.getElementById('username').value;
       const p = document.getElementById('password').value;
-      if (u.length > 2 && p.length > 2) {
+      const errorMessage = document.getElementById('error-message');
+
+      // Kullanıcı adı ve şifreyi kontrol ediyoruz
+      if (u === "admin" && p === "1234") {
         localStorage.setItem("loggedIn", "true");
         document.getElementById('loginOverlay').style.display = 'none';
       } else {
-        alert("Lütfen geçerli kullanıcı adı ve şifre girin.");
+        errorMessage.style.opacity = '1'; // Hata mesajını göster
       }
     }
 
