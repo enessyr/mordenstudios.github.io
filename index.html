@@ -1,174 +1,138 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Morden Studios</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8">
+  <title>Morden Studios - Minecraft Sunucusu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'Roboto', sans-serif;
-      background: url('arkaplan.png') no-repeat center center fixed;
-      background-size: cover;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #1e1e2f, #3e4e5e);
+      margin: 0;
       color: white;
-      line-height: 1.6;
-      overflow-x: hidden;
     }
     header {
+      background-color: #121827;
       padding: 2rem;
       text-align: center;
-      background: rgba(0, 0, 0, 0.6);
-      border-bottom: 2px solid #4df;
     }
     header h1 {
-      font-family: 'Orbitron', sans-serif;
+      color: #00ffcc;
       font-size: 3rem;
-      color: #4df;
+      margin: 0;
+    }
+    nav {
+      margin-top: 1rem;
     }
     nav a {
-      margin: 0 1rem;
-      color: #fff;
+      color: #ffffff;
       text-decoration: none;
+      margin: 0 1rem;
       font-weight: bold;
     }
     section {
-      padding: 3rem 10%;
-      border-bottom: 1px solid #333;
-      background-color: rgba(0, 0, 0, 0.6);
+      padding: 2rem;
     }
-    section h2 {
-      color: #4df;
+    h2 {
+      color: #00ffcc;
       margin-bottom: 1rem;
     }
-    .social a {
-      color: #4df;
-      margin: 0 10px;
-      text-decoration: none;
+    .store {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
     }
-    footer {
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-      background: #000;
-      color: #aaa;
-    }
-    .snowflake {
-      position: fixed;
-      top: -10px;
-      user-select: none;
-      pointer-events: none;
-      color: #fff;
-      font-size: 1.2rem;
-      animation: fall linear infinite;
-    }
-    @keyframes fall {
-      to {
-        transform: translateY(100vh);
-        opacity: 0;
-      }
-    }
-    .settings {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      background: rgba(0,0,0,0.8);
+    .product {
+      background: #1f2937;
       padding: 1rem;
       border-radius: 10px;
-      display: none;
+      width: 250px;
+      box-shadow: 0 0 10px rgba(0,255,204,0.3);
+      transition: transform 0.3s ease;
     }
-    .settings label {
-      display: block;
+    .product:hover {
+      transform: scale(1.05);
+    }
+    .product h3 {
+      color: #00ffcc;
       margin-bottom: 0.5rem;
     }
-    .toggle-settings {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      background: #4df;
-      color: #000;
+    .product p {
+      font-size: 0.9rem;
+    }
+    .buy-button {
+      background-color: #00ffcc;
+      color: black;
       padding: 0.5rem 1rem;
       border: none;
       border-radius: 5px;
+      margin-top: 1rem;
       cursor: pointer;
+      font-weight: bold;
+    }
+    footer {
+      background: #111;
+      color: #aaa;
+      padding: 1rem;
+      text-align: center;
+    }
+    .social a {
+      margin: 0 10px;
+      color: #00ffcc;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
-  <button class="toggle-settings" onclick="toggleSettings()">Ayarlar</button>
-  <div class="settings" id="settingsPanel">
-    <label>
-      Kar Yoğunluğu:
-      <input type="range" id="snowIntensity" min="10" max="100" value="40" />
-    </label>
-    <label>
-      Dil:
-      <select id="languageSelect" onchange="changeLanguage()">
-        <option value="tr">Türkçe</option>
-        <option value="en">English</option>
-      </select>
-    </label>
-  </div>
 
-  <header>
-    <h1>Morden Studios</h1>
-    <nav>
-      <a href="#hakkinda">Hakkında</a>
-      <a href="#iletisim">İletişim</a>
-    </nav>
-  </header>
+<header>
+  <h1>Morden Studios</h1>
+  <nav>
+    <a href="#hakkinda">Hakkında</a>
+    <a href="#magaza">Mağaza</a>
+    <a href="#iletisim">İletişim</a>
+  </nav>
+</header>
 
-  <section id="hakkinda">
-    <h2 data-tr="Sunucumuz Hakkında" data-en="About Our Server">Sunucumuz Hakkında</h2>
-    <p data-tr="Yakında Minecraft sunucumuz hizmetinize açılacaktır" data-en="Our Minecraft server will soon be available for you">Yakında Minecraft sunucumuz hizmetinize açılacaktır</p>
-  </section>
+<section id="hakkinda">
+  <h2>Sunucumuz Hakkında</h2>
+  <p>Yakında Minecraft sunucumuz hizmetinize açılacaktır! Birbirinden eğlenceli oyun modları, haritalar ve topluluk etkinlikleri sizi bekliyor!</p>
+</section>
 
-  <section id="iletisim">
-    <h2 data-tr="İletişim" data-en="Contact">İletişim</h2>
-    <p><strong>Email:</strong> <a href="mailto:sayarenes34@gmail.com">sayarenes34@gmail.com</a></p>
-    <div class="social">
-      <a href="https://discord.gg/jtTN7eWBuE" target="_blank">Discord</a> |
-      <a href="https://www.youtube.com/@morden_studios" target="_blank">YouTube</a> |
-      <a href="https://www.instagram.com/morden_studios?igsh=ZDVmeWN4aW1vMTFk" target="_blank">Instagram</a>
+<section id="magaza">
+  <h2>Mağaza</h2>
+  <div class="store">
+    <div class="product">
+      <h3>VIP Paket</h3>
+      <p>Sunucuda özel avantajlar, efektler ve daha fazlası!</p>
+      <button class="buy-button">Satın Al</button>
     </div>
-  </section>
+    <div class="product">
+      <h3>Ultra Zırh</h3>
+      <p>Oyunda güçlü ekipmanlarla fark yarat!</p>
+      <button class="buy-button">Satın Al</button>
+    </div>
+    <div class="product">
+      <h3>Fly Yetkisi</h3>
+      <p>Sunucuda uçma hakkı ile dilediğin gibi gez!</p>
+      <button class="buy-button">Satın Al</button>
+    </div>
+  </div>
+</section>
 
-  <footer>
-    © 2025 Morden Studios | Tüm Hakları Saklıdır.
-  </footer>
+<section id="iletisim">
+  <h2>İletişim</h2>
+  <p><strong>Email:</strong> <a href="mailto:sayarenes34@gmail.com" style="color:#00ffcc;">sayarenes34@gmail.com</a></p>
+  <div class="social">
+    <a href="https://discord.gg/jtTN7eWBuE" target="_blank">Discord</a> |
+    <a href="https://www.youtube.com/@morden_studios" target="_blank">YouTube</a> |
+    <a href="https://www.instagram.com/morden_studios?igsh=ZDVmeWN4aW1vMTFk" target="_blank">Instagram</a>
+  </div>
+</section>
 
-  <script>
-    let snowCount = 40;
-    const createSnow = () => {
-      document.querySelectorAll('.snowflake').forEach(e => e.remove());
-      for (let i = 0; i < snowCount; i++) {
-        const snow = document.createElement('div');
-        snow.classList.add('snowflake');
-        snow.innerHTML = '❄';
-        snow.style.left = Math.random() * 100 + 'vw';
-        snow.style.animationDuration = (Math.random() * 5 + 5) + 's';
-        snow.style.fontSize = (Math.random() * 10 + 10) + 'px';
-        document.body.appendChild(snow);
-      }
-    };
-    createSnow();
+<footer>
+  © 2025 Morden Studios - Minecraft dünyasına hoş geldiniz!
+</footer>
 
-    document.getElementById('snowIntensity').addEventListener('input', (e) => {
-      snowCount = e.target.value;
-      createSnow();
-    });
-
-    function toggleSettings() {
-      const panel = document.getElementById("settingsPanel");
-      panel.style.display = panel.style.display === "block" ? "none" : "block";
-    }
-
-    function changeLanguage() {
-      const lang = document.getElementById("languageSelect").value;
-      document.querySelectorAll("[data-tr]").forEach(el => {
-        el.innerText = el.getAttribute(`data-${lang}`);
-      });
-    }
-  </script>
 </body>
 </html>
