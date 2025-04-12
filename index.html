@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="tr">
+<!DOCTYPE html><html lang="tr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,10 +9,11 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Roboto', sans-serif;
-      background: url('https://wallpapercave.com/wp/wp11023115.jpg') no-repeat center center fixed;
+      background: url('https://wallpapercave.com/wp/wp11022916.jpg') no-repeat center center fixed;
       background-size: cover;
       color: white;
       line-height: 1.6;
+      overflow-x: hidden;
     }
     header {
       background: rgba(0, 0, 0, 0.7);
@@ -44,19 +44,36 @@
       margin-bottom: 1rem;
       text-align: center;
     }
-    .btn {
-      display: inline-block;
-      padding: 1rem 2rem;
+    .social {
+      text-align: center;
       margin-top: 1rem;
-      background-color: #4df;
-      color: black;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 10px;
-      transition: background 0.3s ease;
     }
-    .btn:hover {
-      background-color: #00c8ff;
+    .social a {
+      margin: 0 1rem;
+      text-decoration: none;
+      color: #4df;
+      font-weight: bold;
+    }
+    .settings-toggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: #4df;
+      color: black;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 8px;
+      z-index: 1000;
+    }
+    .settings {
+      display: none;
+      position: fixed;
+      top: 50px;
+      right: 10px;
+      background: rgba(0,0,0,0.8);
+      padding: 20px;
+      border-radius: 10px;
+      z-index: 1000;
     }
     footer {
       text-align: center;
@@ -65,36 +82,93 @@
       color: #aaa;
       font-size: 0.9rem;
     }
+    .snowflake {
+      position: fixed;
+      top: -10px;
+      z-index: 9999;
+      user-select: none;
+      pointer-events: none;
+      color: #fff;
+      font-size: 1.2rem;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 <body>
-  <header>
+  <div class="settings-toggle" onclick="toggleSettings()">Ayarlar</div>
+  <div class="settings" id="settingsPanel">
+    <label>Kar Yoğunluğu: <input type="range" min="10" max="100" value="40" id="snowRange"></label><br><br>
+    <label>Dil: 
+      <select id="langSelect" onchange="changeLanguage()">
+        <option value="tr">Türkçe</option>
+        <option value="en">English</option>
+      </select>
+    </label>
+    <br><br>
+    <button onclick="toggleSettings()">Kapat</button>
+  </div>  <header>
     <h1>Morden Studios</h1>
     <nav>
       <a href="#hakkinda">Hakkında</a>
       <a href="#katil">Katıl</a>
       <a href="#magaza">Mağaza</a>
     </nav>
-  </header>
-
-  <section id="hakkinda">
-    <h2>Hakkımızda</h2>
-    <p>Yakında Minecraft sunucumuz hizmetinize açılacaktır.</p>
-  </section>
-
-  <section id="katil">
-    <h2>Sunucuya Katıl</h2>
-    <p>Topluluğumuza katılmak için Discord sunucumuza davetlisiniz:</p>
-    <a class="btn" href="https://discord.gg/kwAnJQSS" target="_blank">Discord Sunucumuza Katıl</a>
-  </section>
-
-  <section id="magaza">
-    <h2>Mağaza</h2>
-    <p>VIP paketleri ve özel içerikler yakında burada satışa sunulacaktır.</p>
-  </section>
-
-  <footer>
+  </header>  <section id="hakkinda">
+    <h2 data-tr="Hakkımızda" data-en="About Us">Hakkımızda</h2>
+    <p data-tr="Yakında Minecraft sunucumuz hizmetinize açılacaktır." data-en="Our Minecraft server will be available soon.">Yakında Minecraft sunucumuz hizmetinize açılacaktır.</p>
+  </section>  <section id="katil">
+    <h2 data-tr="Topluluğa Katıl" data-en="Join the Community">Topluluğa Katıl</h2>
+    <div class="social">
+      <a href="https://discord.gg/jtTN7eWBuE" target="_blank">Discord</a>
+      <a href="https://www.youtube.com/@morden_studios" target="_blank">YouTube</a>
+      <a href="https://www.instagram.com/morden_studios?igsh=ZDVmeWN4aW1vMTFk" target="_blank">Instagram</a>
+    </div>
+  </section>  <section id="magaza">
+    <h2 data-tr="Mağaza" data-en="Store">Mağaza</h2>
+    <p data-tr="VIP paketleri ve özel içerikler yakında burada satışa sunulacaktır." data-en="VIP packages and exclusive content will be available here soon.">VIP paketleri ve özel içerikler yakında burada satışa sunulacaktır.</p>
+  </section>  <footer>
     © 2025 Morden Studios | Tüm Hakları Saklıdır.
-  </footer>
-</body>
+  </footer>  <script>
+    function toggleSettings() {
+      const panel = document.getElementById('settingsPanel');
+      panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function changeLanguage() {
+      const lang = document.getElementById('langSelect').value;
+      document.querySelectorAll('[data-tr]').forEach(el => {
+        el.innerText = el.getAttribute('data-' + lang);
+      });
+    }
+
+    // Snow effect
+    let snowflakes = [];
+    function createSnowflakes(count) {
+      snowflakes.forEach(s => s.remove());
+      snowflakes = [];
+      for (let i = 0; i < count; i++) {
+        const snow = document.createElement('div');
+        snow.classList.add('snowflake');
+        snow.innerHTML = '❄';
+        snow.style.left = Math.random() * 100 + 'vw';
+        snow.style.animationDuration = (Math.random() * 5 + 5) + 's';
+        snow.style.fontSize = (Math.random() * 10 + 10) + 'px';
+        document.body.appendChild(snow);
+        snowflakes.push(snow);
+      }
+    }
+
+    document.getElementById('snowRange').addEventListener('input', function() {
+      createSnowflakes(this.value);
+    });
+
+    // Başlangıçta 40 kar tanesi oluştur
+    createSnowflakes(40);
+  </script></body>
 </html>
