@@ -86,64 +86,9 @@
       border-radius: 10px;
       text-align: center;
     }
-    .login-overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.9);
-      z-index: 99999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .login-box {
-      background: #222;
-      padding: 2rem;
-      border-radius: 10px;
-      text-align: center;
-      box-shadow: 0 0 10px #0ff;
-      max-width: 400px;
-      width: 100%;
-    }
-    .login-box input {
-      display: block;
-      margin: 1rem auto;
-      padding: 0.75rem;
-      width: 80%;
-      border-radius: 5px;
-      border: 1px solid #0ff;
-      background: #333;
-      color: #fff;
-    }
-    .login-box button {
-      background: #0ff;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      cursor: pointer;
-      font-weight: bold;
-      border-radius: 5px;
-      transition: background 0.3s ease;
-    }
-    .login-box button:hover {
-      background: #00ccff;
-    }
-    .error-message {
-      color: #ff3333;
-      font-size: 1rem;
-      margin-top: 1rem;
-    }
   </style>
 </head>
 <body>
-  <div id="loginOverlay" class="login-overlay">
-    <div class="login-box">
-      <h2>Giriş Yap</h2>
-      <input type="text" id="username" placeholder="Kullanıcı Adı" required>
-      <input type="password" id="password" placeholder="Şifre" required>
-      <button onclick="login()">Giriş Yap</button>
-      <p class="error-message" id="errorMessage" style="display: none;">Geçersiz kullanıcı adı veya şifre. Lütfen tekrar deneyin.</p>
-    </div>
-  </div>
 
   <header>
     <h1>Morden Studios</h1>
@@ -194,26 +139,6 @@
   </footer>
 
   <script>
-    // Giriş işlemi
-    function login() {
-      const u = document.getElementById('username').value;
-      const p = document.getElementById('password').value;
-      const validUsername = 'admin'; // Örnek kullanıcı adı
-      const validPassword = '1234'; // Örnek şifre
-
-      if (u === validUsername && p === validPassword) {
-        localStorage.setItem("loggedIn", "true");
-        document.getElementById('loginOverlay').style.display = 'none';
-      } else {
-        document.getElementById('errorMessage').style.display = 'block';
-      }
-    }
-
-    // Sayfa yüklenince giriş kontrolü
-    if (localStorage.getItem("loggedIn") !== "true") {
-      document.getElementById('loginOverlay').style.display = 'flex';
-    }
-
     // Ayarlar paneli
     function toggleSettings() {
       const s = document.getElementById('settings');
@@ -249,5 +174,6 @@
     }
     updateSnow();
   </script>
+
 </body>
 </html>
