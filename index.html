@@ -9,11 +9,12 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Roboto', sans-serif;
-      background: url('https://wallpapercave.com/wp/wp11022916.jpg') no-repeat center center fixed;
       background-size: cover;
+      background-attachment: fixed;
       color: white;
       line-height: 1.6;
       overflow-x: hidden;
+      transition: background-image 1s ease-in-out;
     }
     header {
       background: rgba(0, 0, 0, 0.7);
@@ -83,7 +84,7 @@
       font-size: 0.9rem;
     }
     .snowflake {
-      position: fixed;
+      position: absolute;
       top: -10px;
       z-index: 9999;
       user-select: none;
@@ -147,7 +148,22 @@
       });
     }
 
-    // Snow effect
+    // Dynamic seasonal background
+    const month = new Date().getMonth();
+    const backgrounds = [
+      'https://wallpapercave.com/wp/wp11022916.jpg', // Winter
+      'https://wallpapercave.com/wp/wp10557020.jpg', // Spring
+      'https://wallpapercave.com/wp/wp11022922.jpg', // Summer
+      'https://wallpapercave.com/wp/wp11214267.jpg'  // Autumn
+    ];
+    let seasonIndex = 0;
+    if (month >= 2 && month <= 4) seasonIndex = 1; // Spring
+    else if (month >= 5 && month <= 7) seasonIndex = 2; // Summer
+    else if (month >= 8 && month <= 10) seasonIndex = 3; // Autumn
+    else seasonIndex = 0; // Winter
+    document.body.style.backgroundImage = `url('${backgrounds[seasonIndex]}')`;
+
+    // Snowfall
     let snowflakes = [];
     function createSnowflakes(count) {
       snowflakes.forEach(s => s.remove());
@@ -157,6 +173,7 @@
         snow.classList.add('snowflake');
         snow.innerHTML = '❄';
         snow.style.left = Math.random() * 100 + 'vw';
+        snow.style.top = Math.random() * 100 + 'vh';
         snow.style.animationDuration = (Math.random() * 5 + 5) + 's';
         snow.style.fontSize = (Math.random() * 10 + 10) + 'px';
         document.body.appendChild(snow);
@@ -164,11 +181,10 @@
       }
     }
 
-  document.getElementById('snowRange').addEventListener('input', function() {
+    document.getElementById('snowRange').addEventListener('input', function() {
       createSnowflakes(this.value);
     });
 
-    // Başlangıçta 40 kar tanesi oluştur
     createSnowflakes(40);
   </script></body>
 </html>
