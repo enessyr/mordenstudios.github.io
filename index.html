@@ -2,157 +2,58 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>Ludoria - Oyunlar Diyarı</title>
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-      transition: background 0.5s, color 0.5s;
-    }
-    header {
-      background-color: #222;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      font-size: 32px;
-    }
-    nav {
-      text-align: right;
-      padding: 10px;
-      background-color: #333;
-    }
-    nav button {
-      padding: 10px 20px;
-      margin: 5px;
-      background-color: #444;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    nav button:hover {
-      background-color: #666;
-    }
-    #ayarlar {
-      display: none;
-      background-color: #eee;
-      padding: 20px;
-      border-top: 3px solid #333;
-    }
-    .oyun-karti {
-      background: white;
-      margin: 20px;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .oyun-karti img {
-      width: 100%;
-      border-radius: 10px;
-    }
-    .oyun-bilgisi {
-      margin-top: 15px;
-      text-align: left;
-    }
-    .tema-yaz {
-      background: linear-gradient(to right, #f9d423, #ff4e50);
-      color: #222;
-    }
-    .tema-kis {
-      background: linear-gradient(to right, #83a4d4, #b6fbff);
-      color: #222;
-    }
-    .tema-parti {
-      background: linear-gradient(to right, #ff6a00, #ee0979);
-      color: white;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PlayRealm - Oyunlar Diyarı</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body class="tema-yaz">
   <header>
-    Ludoria - Oyunlar Diyarı
+    <h1>PlayRealm</h1>
+    <nav>
+      <button onclick="toggleAyarlar()">Ayarlar</button>
+    </nav>
   </header>
 
-  <nav>
-    <button onclick="toggleAyarlar()">Ayarlar</button>
-  </nav>
-
-  <div id="ayarlar">
+  <div id="ayarlar" style="display:none;">
     <h2>Ayarlar</h2>
-    <div>
-      <label>Dil Seçiniz:</label>
-      <select id="dil">
-        <option>Türkçe</option>
-        <option>İngilizce</option>
-        <option>Almanca</option>
-        <option>Fransızca</option>
-        <option>İspanyolca</option>
-        <option>İtalyanca</option>
-        <option>Rusça</option>
-        <option>Çince</option>
-        <option>Japonca</option>
-        <option>Arapça</option>
-      </select>
-    </div>
-    <div style="margin-top:10px;">
-      <label>Tema Seçiniz:</label>
-      <button onclick="temaDegistir('tema-yaz')">Yaz</button>
-      <button onclick="temaDegistir('tema-kis')">Kış</button>
-      <button onclick="temaDegistir('tema-parti')">Parti</button>
-    </div>
+    <label>Dil Seçiniz:</label>
+    <select onchange="dilDegistir(this.value)">
+      <option value="tr">Türkçe</option>
+      <option value="en">İngilizce</option>
+      <option value="de">Almanca</option>
+      <option value="fr">Fransızca</option>
+    </select>
+    <br><br>
+    <label>Tema Seçiniz:</label>
+    <button onclick="temaDegistir('tema-yaz')">Yaz</button>
+    <button onclick="temaDegistir('tema-kis')">Kış</button>
+    <button onclick="temaDegistir('tema-parti')">Parti</button>
   </div>
 
-  <div id="oyunlar">
-    <!-- Oyun Kartları Buraya Gelir -->
-    <div class="oyun-karti">
-      <img src="https://upload.wikimedia.org/wikipedia/en/2/2d/GTA_V_Cover.jpg" alt="GTA V">
-      <div class="oyun-bilgisi">
-        <h2>GTA V</h2>
-        <p>Rockstar Games tarafından geliştirilen ve yayınlanan açık dünya aksiyon-macera oyunu.</p>
-        <h4>Minimum Sistem Gereksinimleri:</h4>
-        <ul>
-          <li>İşlemci: Intel Core 2 Quad CPU Q6600</li>
-          <li>RAM: 4 GB</li>
-          <li>Ekran Kartı: NVIDIA 9800 GT 1GB</li>
-          <li>Disk Alanı: 72 GB</li>
-        </ul>
-      </div>
+  <main id="oyunlar">
+    <div class="oyun-karti" onclick="location.href='oyunlar/gta5.html'">
+      <img src="resimler/gta5.jpg" alt="GTA V">
+      <h2>GTA V</h2>
     </div>
-
-    <div class="oyun-karti">
-      <img src="https://upload.wikimedia.org/wikipedia/en/3/3e/The_Witcher_3_Wild_Hunt.png" alt="The Witcher 3">
-      <div class="oyun-bilgisi">
-        <h2>The Witcher 3: Wild Hunt</h2>
-        <p>CD Projekt RED tarafından geliştirilen bir rol yapma oyunudur.</p>
-        <h4>Minimum Sistem Gereksinimleri:</h4>
-        <ul>
-          <li>İşlemci: Intel Core i5-2500K 3.3GHz</li>
-          <li>RAM: 6 GB</li>
-          <li>Ekran Kartı: Nvidia GeForce GTX 660</li>
-          <li>Disk Alanı: 35 GB</li>
-        </ul>
-      </div>
+    <div class="oyun-karti" onclick="location.href='oyunlar/witcher3.html'">
+      <img src="resimler/witcher3.jpg" alt="The Witcher 3">
+      <h2>The Witcher 3</h2>
     </div>
+    <div class="oyun-karti" onclick="location.href='oyunlar/cyberpunk2077.html'">
+      <img src="resimler/cyberpunk2077.jpg" alt="Cyberpunk 2077">
+      <h2>Cyberpunk 2077</h2>
+    </div>
+    <div class="oyun-karti" onclick="location.href='oyunlar/rdr2.html'">
+      <img src="resimler/rdr2.jpg" alt="Red Dead Redemption 2">
+      <h2>Red Dead Redemption 2</h2>
+    </div>
+    <div class="oyun-karti" onclick="location.href='oyunlar/minecraft.html'">
+      <img src="resimler/minecraft.jpg" alt="Minecraft">
+      <h2>Minecraft</h2>
+    </div>
+    <!-- Devamı 250 oyun şeklinde çoğalacak -->
+  </main>
 
-  </div>
-
-  <script>
-    function toggleAyarlar() {
-      const ayarlar = document.getElementById('ayarlar');
-      if (ayarlar.style.display === 'block') {
-        ayarlar.style.display = 'none';
-      } else {
-        ayarlar.style.display = 'block';
-      }
-    }
-
-    function temaDegistir(tema) {
-      document.body.className = tema;
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
