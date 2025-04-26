@@ -2,129 +2,156 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>Hünkârın Akıllı Yapay Zekâsı</title>
+  <title>Ludoria - Oyunlar Diyarı</title>
   <style>
     body {
-      background: url('https://upload.wikimedia.org/wikipedia/commons/6/6b/Flag_of_the_Ottoman_Empire.svg') no-repeat center center fixed;
-      background-size: cover;
-      font-family: 'Georgia', serif;
-      text-align: center;
-      padding: 50px;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      transition: background 0.5s, color 0.5s;
+    }
+    header {
+      background-color: #222;
       color: white;
-      background-color: black;
-    }
-    .container {
-      background: rgba(0,0,0,0.7);
-      padding: 30px;
-      border-radius: 20px;
-      display: inline-block;
-      margin-top: 30px;
-    }
-    input, button {
-      padding: 15px;
-      margin: 10px;
-      border-radius: 10px;
-      border: none;
-      font-size: 18px;
-    }
-    button {
-      background-color: #f1c40f;
-      cursor: pointer;
-      color: black;
-    }
-    button:hover {
-      background-color: #d4ac0d;
-    }
-    #cevap {
-      margin-top: 20px;
-      font-size: 22px;
-      background: rgba(255, 255, 255, 0.1);
       padding: 20px;
-      border-radius: 15px;
-      display: inline-block;
+      text-align: center;
+      font-size: 32px;
+    }
+    nav {
+      text-align: right;
+      padding: 10px;
+      background-color: #333;
+    }
+    nav button {
+      padding: 10px 20px;
+      margin: 5px;
+      background-color: #444;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    nav button:hover {
+      background-color: #666;
+    }
+    #ayarlar {
+      display: none;
+      background-color: #eee;
+      padding: 20px;
+      border-top: 3px solid #333;
+    }
+    .oyun-karti {
+      background: white;
+      margin: 20px;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .oyun-karti img {
+      width: 100%;
+      border-radius: 10px;
+    }
+    .oyun-bilgisi {
+      margin-top: 15px;
+      text-align: left;
+    }
+    .tema-yaz {
+      background: linear-gradient(to right, #f9d423, #ff4e50);
+      color: #222;
+    }
+    .tema-kis {
+      background: linear-gradient(to right, #83a4d4, #b6fbff);
+      color: #222;
+    }
+    .tema-parti {
+      background: linear-gradient(to right, #ff6a00, #ee0979);
+      color: white;
     }
   </style>
 </head>
-<body>
-  <div class="container">
-    <h1>Hünkârın Yapay Zekâsı</h1>
-    <p>Sualinizi yazınız:</p>
-    <input type="text" id="soru" placeholder="Sualiniz...">
-    <button onclick="cevapla()">Sor!</button>
-    <div id="cevap"></div>
+<body class="tema-yaz">
+  <header>
+    Ludoria - Oyunlar Diyarı
+  </header>
+
+  <nav>
+    <button onclick="toggleAyarlar()">Ayarlar</button>
+  </nav>
+
+  <div id="ayarlar">
+    <h2>Ayarlar</h2>
+    <div>
+      <label>Dil Seçiniz:</label>
+      <select id="dil">
+        <option>Türkçe</option>
+        <option>İngilizce</option>
+        <option>Almanca</option>
+        <option>Fransızca</option>
+        <option>İspanyolca</option>
+        <option>İtalyanca</option>
+        <option>Rusça</option>
+        <option>Çince</option>
+        <option>Japonca</option>
+        <option>Arapça</option>
+      </select>
+    </div>
+    <div style="margin-top:10px;">
+      <label>Tema Seçiniz:</label>
+      <button onclick="temaDegistir('tema-yaz')">Yaz</button>
+      <button onclick="temaDegistir('tema-kis')">Kış</button>
+      <button onclick="temaDegistir('tema-parti')">Parti</button>
+    </div>
+  </div>
+
+  <div id="oyunlar">
+    <!-- Oyun Kartları Buraya Gelir -->
+    <div class="oyun-karti">
+      <img src="https://upload.wikimedia.org/wikipedia/en/2/2d/GTA_V_Cover.jpg" alt="GTA V">
+      <div class="oyun-bilgisi">
+        <h2>GTA V</h2>
+        <p>Rockstar Games tarafından geliştirilen ve yayınlanan açık dünya aksiyon-macera oyunu.</p>
+        <h4>Minimum Sistem Gereksinimleri:</h4>
+        <ul>
+          <li>İşlemci: Intel Core 2 Quad CPU Q6600</li>
+          <li>RAM: 4 GB</li>
+          <li>Ekran Kartı: NVIDIA 9800 GT 1GB</li>
+          <li>Disk Alanı: 72 GB</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="oyun-karti">
+      <img src="https://upload.wikimedia.org/wikipedia/en/3/3e/The_Witcher_3_Wild_Hunt.png" alt="The Witcher 3">
+      <div class="oyun-bilgisi">
+        <h2>The Witcher 3: Wild Hunt</h2>
+        <p>CD Projekt RED tarafından geliştirilen bir rol yapma oyunudur.</p>
+        <h4>Minimum Sistem Gereksinimleri:</h4>
+        <ul>
+          <li>İşlemci: Intel Core i5-2500K 3.3GHz</li>
+          <li>RAM: 6 GB</li>
+          <li>Ekran Kartı: Nvidia GeForce GTX 660</li>
+          <li>Disk Alanı: 35 GB</li>
+        </ul>
+      </div>
+    </div>
+
   </div>
 
   <script>
-    const bilgiBankasi = {
-      "osmanlı tarihi": "Osmanlı Devleti, 1299 yılında Söğüt'te kurulmuştur, 600 yıl hüküm sürmüştür.",
-      "istanbul'un fethi": "İstanbul, 29 Mayıs 1453 tarihinde Fatih Sultan Mehmed tarafından fethedilmiştir.",
-      "matematik nedir": "Matematik; sayı, şekil ve mantık üzerine kurulu bilim dalıdır.",
-      "dünya yuvarlak mı": "Evet hünkarım, dünya geoid bir şekle sahiptir, yani yuvarlağa benzer.",
-      "ataturk kimdir": "Gazi Mustafa Kemal Atatürk, Türkiye Cumhuriyeti'nin kurucusudur.",
-      "su neden ıslatır": "Su, moleküllerinin polar yapısı nedeniyle yüzeylere yapışarak ıslatır.",
-      "güneş nedir": "Güneş, Dünya'ya en yakın yıldızdır ve ısı ile ışık kaynağımızdır.",
-      "mehter takımı nedir": "Mehter, Osmanlı ordusunun savaş müziği yapan askeri bandosudur.",
-      "türk bayrağı anlamı": "Türk bayrağındaki kırmızı renk şehit kanını, ay ve yıldız ise bağımsızlığı temsil eder.",
-      "en büyük gezegen": "En büyük gezegen hünkarım, Jüpiter'dir.",
-      "ramazan nedir": "Ramazan, İslam âleminde oruç tutulan mübarek aydır.",
-      "suyun kaynama noktası": "Suyun kaynama noktası 100°C'dir.",
-      "osmanlı padişahları kaç kişidir": "Toplam 36 Osmanlı padişahı vardır, hünkarım.",
-      "en hızlı hayvan": "Dünyanın en hızlı hayvanı, dalış sırasında saatte 389 km'ye ulaşan kerkenezdir.",
-      "anayasamız nedir": "Türkiye Cumhuriyeti Anayasası, devletin temel hukuk kurallarını belirleyen metindir.",
-      "istanbul kaç kıtada": "İstanbul, hem Avrupa hem Asya kıtasında bulunur.",
-      "atom nedir": "Atom, maddenin en küçük yapı taşıdır.",
-      "elektrik nedir": "Elektrik, yüklerin hareketi sonucu oluşan enerjidir.",
-      "şehzade nedir": "Şehzade, Osmanlı'da padişahın oğluna verilen unvandır.",
-      "kudüs nerede": "Kudüs, Orta Doğu'da, Filistin bölgesinde bulunan kutsal bir şehirdir."
-    };
-
-    function cevapla() {
-      let soru = document.getElementById('soru').value.toLowerCase();
-      soru = soru.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[çğışüö]/g, function(c) {
-        return {'ç':'c','ğ':'g','ı':'i','ş':'s','ü':'u','ö':'o'}[c];
-      });
-
-      let enYakin = null;
-      let maxBenzerlik = 0;
-
-      for (const anahtar in bilgiBankasi) {
-        let benzerlik = uygunlukHesapla(soru, anahtar);
-        if (benzerlik > maxBenzerlik) {
-          maxBenzerlik = benzerlik;
-          enYakin = anahtar;
-        }
-      }
-
-      const cevapDiv = document.getElementById('cevap');
-      if (maxBenzerlik > 0.3) {
-        const cevap = bilgiBankasi[enYakin];
-        cevapDiv.innerHTML = cevap;
-        sesliOku(cevap);
+    function toggleAyarlar() {
+      const ayarlar = document.getElementById('ayarlar');
+      if (ayarlar.style.display === 'block') {
+        ayarlar.style.display = 'none';
       } else {
-        const mesaj = "Sualinizi anlayamadım, hünkarım.";
-        cevapDiv.innerHTML = mesaj;
-        sesliOku(mesaj);
+        ayarlar.style.display = 'block';
       }
     }
 
-    function uygunlukHesapla(a, b) {
-      a = a.replace(/\s+/g, '');
-      b = b.replace(/\s+/g, '');
-      let uzunluk = Math.max(a.length, b.length);
-      let ortak = 0;
-      for (let i = 0; i < Math.min(a.length, b.length); i++) {
-        if (a[i] === b[i]) ortak++;
-      }
-      return ortak / uzunluk;
-    }
-
-    function sesliOku(metin) {
-      if ('speechSynthesis' in window) {
-        const msg = new SpeechSynthesisUtterance();
-        msg.lang = 'tr-TR';
-        msg.text = metin;
-        window.speechSynthesis.speak(msg);
-      }
+    function temaDegistir(tema) {
+      document.body.className = tema;
     }
   </script>
 </body>
