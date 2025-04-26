@@ -1,79 +1,90 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Hız Testi</title>
+  <title>Akıllı Yapay Zekâ</title>
   <style>
     body {
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-      color: white;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #1f4037, #99f2c8);
+      font-family: 'Segoe UI', sans-serif;
       text-align: center;
       padding: 50px;
+      color: white;
     }
-    .container {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 20px;
-      padding: 30px;
+    #cevap {
+      margin-top: 20px;
+      font-size: 22px;
+      background: rgba(0,0,0,0.4);
       display: inline-block;
+      padding: 20px;
+      border-radius: 15px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      margin: 5px;
     }
     button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 10px;
-      background: #00c6ff;
+      background-color: #00c6ff;
       color: black;
-      font-size: 18px;
       cursor: pointer;
-      margin-top: 20px;
     }
     button:hover {
-      background: #0072ff;
-    }
-    .result {
-      margin-top: 20px;
-      font-size: 24px;
+      background-color: #0072ff;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>İnternet Hız Testi</h1>
-    <p>Gerçek indirme hızınızı öğreniniz.</p>
-    <button onclick="startTest()">Testi Başlat</button>
-    <div class="result" id="result"></div>
-  </div>
+  <h1>Hünkâr Yapay Zekâsı</h1>
+  <p>Sualinizi yazınız:</p>
+  <input type="text" id="soru" placeholder="Sualiniz...">
+  <button onclick="cevapla()">Sor</button>
+
+  <div id="cevap"></div>
 
   <script>
-    async function startTest() {
-      const resultDiv = document.getElementById('result');
-      resultDiv.innerHTML = 'Test yapılıyor...';
-      
-      const fileUrl = "https://speed.hetzner.de/100MB.bin"; // Almanya'dan bir hızlı sunucu dosyası
-      const startTime = new Date().getTime();
-      
-      try {
-        const response = await fetch(fileUrl, { method: 'GET' });
-        const reader = response.body.getReader();
-        let receivedLength = 0;
-        const contentLength = +response.headers.get('Content-Length');
-        
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          receivedLength += value.length;
+    const bilgiBankasi = {
+      "osmanlı tarihi": "Osmanlı Devleti 1299 yılında kurulmuştur.",
+      "istanbul'un fethi": "İstanbul, Fatih Sultan Mehmet tarafından 1453 yılında fethedilmiştir.",
+      "matematik nedir": "Matematik, sayıların ve şekillerin bilimidir.",
+      "dünya yuvarlak mı": "Evet, dünya geoid yani hafif basık yuvarlaktır.",
+      "ataturk kimdir": "Mustafa Kemal Atatürk, Türkiye Cumhuriyeti'nin kurucusudur.",
+      "su neden ıslatır": "Su, moleküler yapısından dolayı yüzeyleri ıslatır."
+    };
+
+    function cevapla() {
+      let soru = document.getElementById('soru').value.toLowerCase();
+      soru = soru.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // Türkçe karakterleri düzleştirir
+      let enYakin = null;
+      let maxBenzerlik = 0;
+
+      for (const anahtar in bilgiBankasi) {
+        let benzerlik = uygunlukHesapla(soru, anahtar);
+        if (benzerlik > maxBenzerlik) {
+          maxBenzerlik = benzerlik;
+          enYakin = anahtar;
         }
-
-        const endTime = new Date().getTime();
-        const duration = (endTime - startTime) / 1000; // saniye cinsinden süre
-        const bitsLoaded = receivedLength * 8;
-        const speedMbps = (bitsLoaded / duration / 1024 / 1024).toFixed(2);
-
-        resultDiv.innerHTML = `İndirme Hızınız: <strong>${speedMbps} Mbps</strong>`;
-      } catch (error) {
-        resultDiv.innerHTML = 'Test başarısız oldu.';
       }
+
+      if (maxBenzerlik > 0.3) {
+        document.getElementById('cevap').innerHTML = bilgiBankasi[enYakin];
+      } else {
+        document.getElementById('cevap').innerHTML = "Sualinizi anlayamadım, hünkarım.";
+      }
+    }
+
+    function uygunlukHesapla(a, b) {
+      a = a.replace(/\s+/g, '');
+      b = b.replace(/\s+/g, '');
+      let uzunluk = Math.max(a.length, b.length);
+      let ortak = 0;
+      for (let i = 0; i < Math.min(a.length, b.length); i++) {
+        if (a[i] === b[i]) ortak++;
+      }
+      return ortak / uzunluk;
     }
   </script>
 </body>
