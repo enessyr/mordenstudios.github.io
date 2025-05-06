@@ -8,15 +8,11 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #1a1a1a, #2d2d2d);
+      background: #1b1b1b;
       color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
     }
 
     header {
-      width: 100%;
       background: #111;
       padding: 1rem;
       text-align: center;
@@ -24,78 +20,114 @@
     }
 
     header h1 {
-      margin: 0;
-      font-size: 2rem;
       color: #00ff88;
+      margin: 0;
     }
 
-    .tips {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      background: #222;
+    }
+
+    .tab {
+      padding: 1rem;
+      cursor: pointer;
+      color: #aaa;
+      transition: 0.3s;
+    }
+
+    .tab:hover, .tab.active {
+      background: #333;
+      color: #00ffcc;
+    }
+
+    .content {
+      display: none;
       padding: 2rem;
-      width: 100%;
-      max-width: 1200px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .content.active {
+      display: block;
     }
 
     .tip {
-      background: #222;
-      border-radius: 12px;
+      background: #2a2a2a;
       padding: 1rem;
-      cursor: pointer;
-      transition: transform 0.3s, background 0.3s;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      transition: 0.3s;
     }
 
     .tip:hover {
-      transform: scale(1.03);
-      background: #333;
+      background: #3a3a3a;
     }
 
     .tip h3 {
-      margin-top: 0;
+      margin: 0 0 0.5rem;
       color: #00ffcc;
     }
 
     footer {
-      margin-top: auto;
-      background: #111;
-      width: 100%;
       text-align: center;
       padding: 1rem;
-      font-size: 0.9rem;
+      background: #111;
       color: #777;
-    }
-
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 1.5rem;
-      }
+      margin-top: 3rem;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>MineAkıl - Minecraft İpuçları</h1>
-  </header>
 
-  <section class="tips">
-    <div class="tip" onclick="location.href='ipuclari/kazma.html'">
-      <h3>Elmas Kazma İçin En İyi Yöntem</h3>
-      <p>Elmasları hızlı ve güvenli şekilde bulmak için tünel stratejisini öğrenin.</p>
-    </div>
-    <div class="tip" onclick="location.href='ipuclari/ender.html'">
-      <h3>Ender Dragon’u Kolay Kesmenin Yolu</h3>
-      <p>Hazırlık, iksirler ve taktiklerle ejderhayı dize getirin.</p>
-    </div>
-    <div class="tip" onclick="location.href='ipuclari/farm.html'">
-      <h3>Otomatik Tarla Kurulumu</h3>
-      <p>Kendi kendine işleyen sistemlerle zahmetsiz mahsul toplayın.</p>
-    </div>
-  </section>
+<header>
+  <h1>MineAkıl - Minecraft İpuçları</h1>
+</header>
 
-  <footer>
-    &copy; 2025 MineAkıl. Tüm hakları mahfuzdur.
-  </footer>
+<nav>
+  <div class="tab active" onclick="showTab('kazma')">Kazma & Maden</div>
+  <div class="tab" onclick="showTab('savas')">Savaş & Bosslar</div>
+  <div class="tab" onclick="showTab('yapilar')">Yapılar & Tarlalar</div>
+  <div class="tab" onclick="showTab('hayattaKalma')">Hayatta Kalma</div>
+</nav>
+
+<div id="kazma" class="content active">
+  <!-- 100 kazma ipucu örnek -->
+  <div class="tip"><h3>Elmas Katmanı</h3><p>Y=-58 civarında elmas bulma ihtimali yüksektir.</p></div>
+  <div class="tip"><h3>Verimlilik Büyüsü</h3><p>Kazmaya Efficiency ekleyerek daha hızlı kazabilirsiniz.</p></div>
+  <!-- Daha fazlası JS ile eklenebilir -->
+</div>
+
+<div id="savas" class="content">
+  <div class="tip"><h3>Ejderhayı Tuzakla</h3><p>Ender Dragon'u kafes sistemi ile kontrol altına alabilirsiniz.</p></div>
+  <div class="tip"><h3>Wither için Tuzak Odası</h3><p>Nether’da dar bir oda inşa ederek Wither’ı sınırlandırabilirsiniz.</p></div>
+</div>
+
+<div id="yapilar" class="content">
+  <div class="tip"><h3>Otomatik Tarla Sistemi</h3><p>Observer ve Dispenser ile tam otomasyon kurabilirsiniz.</p></div>
+  <div class="tip"><h3>Gizli Giriş</h3><p>Piston ve basınç plakalarıyla görünmeyen kapılar yapın.</p></div>
+</div>
+
+<div id="hayattaKalma" class="content">
+  <div class="tip"><h3>Geceleri Güvende Kalın</h3><p>Fener ve meşale kombinasyonları karanlıkta spawn’ı önler.</p></div>
+  <div class="tip"><h3>Acil Durum Seti</h3><p>Bir sandıkta yedek zırh, yemek ve kalkan bulundurun.</p></div>
+</div>
+
+<footer>
+  &copy; 2025 MineAkıl. Tüm hakları mahfuzdur.
+</footer>
+
+<script>
+  function showTab(id) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+
+    document.querySelector(`[onclick="showTab('${id}')"]`).classList.add('active');
+    document.getElementById(id).classList.add('active');
+  }
+</script>
+
 </body>
 </html>
