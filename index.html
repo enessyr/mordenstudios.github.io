@@ -69,16 +69,6 @@
       border-radius: 5px;
       cursor: pointer;
     }
-    
-    /* Animasyon: kart oynanırken */
-    .card.played {
-      animation: cardAnimation 1s forwards;
-    }
-
-    @keyframes cardAnimation {
-      0% { transform: scale(0.5); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
-    }
 
     /* Ayarlar Paneli */
     #settings-panel {
@@ -112,6 +102,9 @@
       border-radius: 5px;
       cursor: pointer;
     }
+    
+    /* Yeni özel kartlar için renkler ve ikonlar */
+    .card.special { background: gold; color: black; font-size: 18px; }
   </style>
 </head>
 <body>
@@ -124,6 +117,7 @@
     <div><strong>BİLGİSAYARIN ELİ: <span id="ai-count">?</span> kart</strong></div>
 
     <button id="settings-toggle">Ayarlar</button>
+    <button id="uno-button">UNO!</button>
   </div>
 
   <!-- Ayarlar Paneli -->
@@ -140,6 +134,14 @@
     let soundEnabled = true;
     let animationsEnabled = true;
 
+    // Oyun Sesi
+    const playSound = (sound) => {
+      if (soundEnabled) {
+        const audio = new Audio(sound);
+        audio.play();
+      }
+    };
+
     function createDeck() {
       let deck = [];
       for (let color of colors) {
@@ -147,6 +149,10 @@
           deck.push({ color, number: i });
         }
       }
+      // Özel kartlar
+      deck.push({ color: 'special', type: 'skip' }); // Engel kartı
+      deck.push({ color: 'special', type: '+2' }); // +2 kartı
+      deck.push({ color: 'special', type: '+4' }); // +4 kartı
       return shuffle(deck);
     }
 
@@ -184,12 +190,17 @@
       playerHand.forEach((card, index) => {
         const div = document.createElement('div');
         div.className = `card ${card.color}`;
-        div.textContent = card.number;
+        if (card.color === 'special') {
+          div.classList.add('special');
+          div.textContent = card.type;
+        } else {
+          div.textContent = card.number;
+        }
         div.onclick = () => playCard(index);
         playerDiv.appendChild(div);
       });
 
-      topDiv.textContent = `Üst Kart: ${topCard.color.toUpperCase()} ${topCard.number}`;
+      topDiv.textContent = `Üst Kart: ${topCard.color.toUpperCase()} ${topCard.number || topCard.type}`;
       topDiv.style.color = topCard.color;
       aiCount.textContent = aiHand.length;
 
@@ -199,9 +210,10 @@
 
     function playCard(index) {
       const card = playerHand[index];
-      if (card.color === topCard.color || card.number === topCard.number) {
+      if (card.color === topCard.color || card.number === topCard.number || card.color === 'special') {
         topCard = card;
         playerHand.splice(index, 1);
+        playSound('play-card.mp3'); // Oyun sesi ekleyin
         updateDisplay();
         if (animationsEnabled) document.querySelectorAll('.card')[index].classList.add('played');
         setTimeout(aiTurn, 1000);
@@ -211,7 +223,7 @@
     function aiTurn() {
       for (let i = 0; i < aiHand.length; i++) {
         const card = aiHand[i];
-        if (card.color === topCard.color || card.number === topCard.number) {
+        if (card.color === topCard.color || card.number === topCard.number || card.color === 'special') {
           topCard = card;
           aiHand.splice(i, 1);
           updateDisplay();
@@ -224,6 +236,7 @@
 
     document.getElementById('draw-button').onclick = () => {
       playerHand.push(drawCard());
+      playSound('draw-card.mp3'); // Kart çekme sesi
       updateDisplay();
       setTimeout(aiTurn, 1000);
     };
@@ -245,6 +258,10 @@
     document.getElementById('toggle-animations').onclick = () => {
       animationsEnabled = !animationsEnabled;
       alert(animationsEnabled ? "Animasyonlar açıldı" : "Animasyonlar kapalı");
+    };
+
+    document.getElementById('uno-button').onclick = () => {
+      alert('UNO dediğinizde dikkatli olun!');
     };
 
     startGame();
