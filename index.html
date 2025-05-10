@@ -2,6 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BİR! - Kart Oyunu</title>
   <style>
     body {
@@ -11,6 +12,7 @@
       background: linear-gradient(120deg, #ff416c, #ff4b2b);
       color: white;
       text-align: center;
+      overflow: hidden;
     }
     h1 {
       margin: 20px;
@@ -19,6 +21,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding-bottom: 20px;
     }
     .hand {
       margin: 10px;
@@ -29,7 +32,7 @@
     .card {
       background: white;
       color: black;
-      padding: 10px;
+      padding: 20px;
       margin: 5px;
       border-radius: 10px;
       width: 60px;
@@ -39,23 +42,72 @@
       justify-content: center;
       font-weight: bold;
       cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
     }
     .card.red { background: crimson; color: white; }
     .card.green { background: seagreen; color: white; }
     .card.blue { background: royalblue; color: white; }
     .card.yellow { background: goldenrod; color: white; }
-
+    
     #top-card {
       font-size: 1.5rem;
       margin: 10px;
     }
-
+    
     #draw-button {
       padding: 10px 20px;
       font-size: 1rem;
       margin: 10px;
       background: white;
       color: #ff4b2b;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    /* Animasyon: kart oynanırken */
+    .card.played {
+      animation: cardAnimation 1s forwards;
+    }
+
+    @keyframes cardAnimation {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Ayarlar Paneli */
+    #settings-panel {
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 20px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      border-radius: 10px;
+      display: none;
+      z-index: 1000;
+    }
+    #settings-panel button {
+      background: crimson;
+      color: white;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      margin: 5px 0;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #settings-toggle {
+      margin-top: 20px;
+      background: #ff4b2b;
+      padding: 10px 20px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
@@ -70,11 +122,23 @@
     <div><strong>SENİN ELİN</strong></div>
     <div id="player-hand" class="hand"></div>
     <div><strong>BİLGİSAYARIN ELİ: <span id="ai-count">?</span> kart</strong></div>
+
+    <button id="settings-toggle">Ayarlar</button>
+  </div>
+
+  <!-- Ayarlar Paneli -->
+  <div id="settings-panel">
+    <h3>Ayarlar</h3>
+    <button id="toggle-sound">Ses Aç/Kapat</button>
+    <button id="toggle-animations">Animasyonları Aç/Kapat</button>
+    <button id="close-settings">Kapat</button>
   </div>
 
   <script>
     const colors = ['red', 'green', 'blue', 'yellow'];
     let playerHand = [], aiHand = [], topCard;
+    let soundEnabled = true;
+    let animationsEnabled = true;
 
     function createDeck() {
       let deck = [];
@@ -139,6 +203,7 @@
         topCard = card;
         playerHand.splice(index, 1);
         updateDisplay();
+        if (animationsEnabled) document.querySelectorAll('.card')[index].classList.add('played');
         setTimeout(aiTurn, 1000);
       }
     }
@@ -161,6 +226,25 @@
       playerHand.push(drawCard());
       updateDisplay();
       setTimeout(aiTurn, 1000);
+    };
+
+    document.getElementById('settings-toggle').onclick = () => {
+      const panel = document.getElementById('settings-panel');
+      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+    };
+
+    document.getElementById('close-settings').onclick = () => {
+      document.getElementById('settings-panel').style.display = 'none';
+    };
+
+    document.getElementById('toggle-sound').onclick = () => {
+      soundEnabled = !soundEnabled;
+      alert(soundEnabled ? "Ses açıldı" : "Ses kapalı");
+    };
+
+    document.getElementById('toggle-animations').onclick = () => {
+      animationsEnabled = !animationsEnabled;
+      alert(animationsEnabled ? "Animasyonlar açıldı" : "Animasyonlar kapalı");
     };
 
     startGame();
