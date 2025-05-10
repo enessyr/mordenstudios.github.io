@@ -2,269 +2,82 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BİR! - Kart Oyunu</title>
+  <title>1D Savaş Oyunu</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(120deg, #ff416c, #ff4b2b);
+      background-color: #1a1a1a;
       color: white;
       text-align: center;
-      overflow: hidden;
-    }
-    h1 {
-      margin: 20px;
     }
     #game {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-bottom: 20px;
+      position: relative;
+      width: 800px;
+      height: 400px;
+      margin: 50px auto;
+      border: 2px solid #fff;
+      background-color: #333;
     }
-    .hand {
-      margin: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .card {
-      background: white;
-      color: black;
-      padding: 20px;
-      margin: 5px;
-      border-radius: 10px;
-      width: 60px;
-      height: 90px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .card:hover {
-      transform: scale(1.1);
-      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
-    }
-    .card.red { background: crimson; color: white; }
-    .card.green { background: seagreen; color: white; }
-    .card.blue { background: royalblue; color: white; }
-    .card.yellow { background: goldenrod; color: white; }
-    
-    #top-card {
-      font-size: 1.5rem;
-      margin: 10px;
-    }
-    
-    #draw-button {
-      padding: 10px 20px;
-      font-size: 1rem;
-      margin: 10px;
-      background: white;
-      color: #ff4b2b;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    /* Ayarlar Paneli */
-    #settings-panel {
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: 20px;
+    .character {
+      width: 50px;
+      height: 50px;
+      background-color: red;
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 300px;
-      border-radius: 10px;
-      display: none;
-      z-index: 1000;
+      bottom: 10px;
     }
-    #settings-panel button {
-      background: crimson;
-      color: white;
-      border: none;
-      padding: 10px;
+    .enemy {
+      width: 50px;
+      height: 50px;
+      background-color: blue;
+      position: absolute;
+      bottom: 10px;
+    }
+    #health-bar, #enemy-health-bar {
+      height: 20px;
       width: 100%;
-      margin: 5px 0;
-      border-radius: 5px;
-      cursor: pointer;
+      margin: 10px;
     }
-    #settings-toggle {
-      margin-top: 20px;
-      background: #ff4b2b;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+    .health {
+      height: 100%;
+      background-color: green;
     }
-    
-    /* Yeni özel kartlar için renkler ve ikonlar */
-    .card.special { background: gold; color: black; font-size: 18px; }
   </style>
 </head>
 <body>
-  <h1>BİR! – Kart Oyunu</h1>
+  <h1>1D Savaş Oyunu</h1>
   <div id="game">
-    <div id="top-card">Üst Kart: </div>
-    <button id="draw-button">Kart Çek</button>
-    <div><strong>SENİN ELİN</strong></div>
-    <div id="player-hand" class="hand"></div>
-    <div><strong>BİLGİSAYARIN ELİ: <span id="ai-count">?</span> kart</strong></div>
-
-    <button id="settings-toggle">Ayarlar</button>
-    <button id="uno-button">UNO!</button>
+    <div id="player" class="character" style="left: 10px;"></div>
+    <div id="enemy" class="enemy" style="left: 700px;"></div>
   </div>
-
-  <!-- Ayarlar Paneli -->
-  <div id="settings-panel">
-    <h3>Ayarlar</h3>
-    <button id="toggle-sound">Ses Aç/Kapat</button>
-    <button id="toggle-animations">Animasyonları Aç/Kapat</button>
-    <button id="close-settings">Kapat</button>
+  <div id="health-bar">
+    <div id="player-health" class="health" style="width: 100%;"></div>
   </div>
+  <div id="enemy-health-bar">
+    <div id="enemy-health" class="health" style="width: 100%;"></div>
+  </div>
+  <button onclick="attack()">Saldır</button>
 
   <script>
-    const colors = ['red', 'green', 'blue', 'yellow'];
-    let playerHand = [], aiHand = [], topCard;
-    let soundEnabled = true;
-    let animationsEnabled = true;
+    let playerHealth = 100;
+    let enemyHealth = 100;
 
-    // Oyun Sesi
-    const playSound = (sound) => {
-      if (soundEnabled) {
-        const audio = new Audio(sound);
-        audio.play();
-      }
-    };
+    function attack() {
+      let damage = Math.floor(Math.random() * 20) + 5; // 5-25 arasında rastgele hasar
+      enemyHealth -= damage;
+      if (enemyHealth < 0) enemyHealth = 0;
+      document.getElementById('enemy-health').style.width = enemyHealth + '%';
 
-    function createDeck() {
-      let deck = [];
-      for (let color of colors) {
-        for (let i = 1; i <= 9; i++) {
-          deck.push({ color, number: i });
-        }
-      }
-      // Özel kartlar
-      deck.push({ color: 'special', type: 'skip' }); // Engel kartı
-      deck.push({ color: 'special', type: '+2' }); // +2 kartı
-      deck.push({ color: 'special', type: '+4' }); // +4 kartı
-      return shuffle(deck);
+      // Düşmanın karşı saldırısı
+      setTimeout(() => {
+        let enemyDamage = Math.floor(Math.random() * 15) + 5;
+        playerHealth -= enemyDamage;
+        if (playerHealth < 0) playerHealth = 0;
+        document.getElementById('player-health').style.width = playerHealth + '%';
+
+        if (playerHealth === 0) alert('Yenildiniz!');
+        if (enemyHealth === 0) alert('Kazandınız!');
+      }, 1000);
     }
-
-    function shuffle(deck) {
-      for (let i = deck.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [deck[i], deck[j]] = [deck[j], deck[i]];
-      }
-      return deck;
-    }
-
-    let deck = createDeck();
-
-    function drawCard() {
-      if (deck.length === 0) deck = createDeck();
-      return deck.pop();
-    }
-
-    function startGame() {
-      playerHand = [], aiHand = [];
-      for (let i = 0; i < 5; i++) {
-        playerHand.push(drawCard());
-        aiHand.push(drawCard());
-      }
-      topCard = drawCard();
-      updateDisplay();
-    }
-
-    function updateDisplay() {
-      const playerDiv = document.getElementById('player-hand');
-      const topDiv = document.getElementById('top-card');
-      const aiCount = document.getElementById('ai-count');
-
-      playerDiv.innerHTML = '';
-      playerHand.forEach((card, index) => {
-        const div = document.createElement('div');
-        div.className = `card ${card.color}`;
-        if (card.color === 'special') {
-          div.classList.add('special');
-          div.textContent = card.type;
-        } else {
-          div.textContent = card.number;
-        }
-        div.onclick = () => playCard(index);
-        playerDiv.appendChild(div);
-      });
-
-      topDiv.textContent = `Üst Kart: ${topCard.color.toUpperCase()} ${topCard.number || topCard.type}`;
-      topDiv.style.color = topCard.color;
-      aiCount.textContent = aiHand.length;
-
-      if (playerHand.length === 0) alert("Zafer sizin Hünkarım!");
-      if (aiHand.length === 0) alert("Yapay zekâ galip geldi...");
-    }
-
-    function playCard(index) {
-      const card = playerHand[index];
-      if (card.color === topCard.color || card.number === topCard.number || card.color === 'special') {
-        topCard = card;
-        playerHand.splice(index, 1);
-        playSound('play-card.mp3'); // Oyun sesi ekleyin
-        updateDisplay();
-        if (animationsEnabled) document.querySelectorAll('.card')[index].classList.add('played');
-        setTimeout(aiTurn, 1000);
-      }
-    }
-
-    function aiTurn() {
-      for (let i = 0; i < aiHand.length; i++) {
-        const card = aiHand[i];
-        if (card.color === topCard.color || card.number === topCard.number || card.color === 'special') {
-          topCard = card;
-          aiHand.splice(i, 1);
-          updateDisplay();
-          return;
-        }
-      }
-      aiHand.push(drawCard());
-      updateDisplay();
-    }
-
-    document.getElementById('draw-button').onclick = () => {
-      playerHand.push(drawCard());
-      playSound('draw-card.mp3'); // Kart çekme sesi
-      updateDisplay();
-      setTimeout(aiTurn, 1000);
-    };
-
-    document.getElementById('settings-toggle').onclick = () => {
-      const panel = document.getElementById('settings-panel');
-      panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-    };
-
-    document.getElementById('close-settings').onclick = () => {
-      document.getElementById('settings-panel').style.display = 'none';
-    };
-
-    document.getElementById('toggle-sound').onclick = () => {
-      soundEnabled = !soundEnabled;
-      alert(soundEnabled ? "Ses açıldı" : "Ses kapalı");
-    };
-
-    document.getElementById('toggle-animations').onclick = () => {
-      animationsEnabled = !animationsEnabled;
-      alert(animationsEnabled ? "Animasyonlar açıldı" : "Animasyonlar kapalı");
-    };
-
-    document.getElementById('uno-button').onclick = () => {
-      alert('UNO dediğinizde dikkatli olun!');
-    };
-
-    startGame();
   </script>
 </body>
 </html>
