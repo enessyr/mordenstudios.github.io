@@ -3,74 +3,342 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Unutulmuş Tarihî ve Mizahi Olaylar</title>
+  <title>Rastgele Sohbet</title>
+  <style>
+    :root {
+      --color-bg-light: #f5f5f5;
+      --color-bg-dark: #1e1e1e;
+      --color-text-light: #222;
+      --color-text-dark: #eee;
+      --color-accent: #7c4dff;
+      --transition-speed: 0.3s;
+    }
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--color-bg-light);
+      color: var(--color-text-light);
+      display: flex; flex-direction: column;
+      height: 100vh;
+      transition: background-color var(--transition-speed), color var(--transition-speed);
+    }
+    body.dark {
+      background-color: var(--color-bg-dark);
+      color: var(--color-text-dark);
+    }
+    header {
+      background: var(--color-accent);
+      color: white;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.4rem;
+      box-shadow: 0 3px 8px rgba(124, 77, 255, 0.5);
+    }
+    #settingsToggle {
+      background: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--color-accent);
+      transition: background-color 0.3s ease;
+    }
+    #settingsToggle:hover {
+      background: #ddd;
+    }
+    #chatContainer {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+      overflow-y: auto;
+      scroll-behavior: smooth;
+    }
+    .message {
+      max-width: 70%;
+      padding: 12px 18px;
+      margin-bottom: 12px;
+      border-radius: 16px;
+      position: relative;
+      animation: fadeInUp 0.4s ease forwards;
+      opacity: 0;
+      transform: translateY(20px);
+      word-wrap: break-word;
+      line-height: 1.3;
+    }
+    .message.self {
+      background: var(--color-accent);
+      color: white;
+      align-self: flex-end;
+      border-bottom-right-radius: 2px;
+      animation-delay: 0.1s;
+    }
+    .message.other {
+      background: #ccc;
+      color: #222;
+      align-self: flex-start;
+      border-bottom-left-radius: 2px;
+      animation-delay: 0.2s;
+    }
+    body.dark .message.other {
+      background: #444;
+      color: var(--color-text-dark);
+    }
+    body.dark .message.self {
+      background: #9c7aff;
+    }
+    #inputArea {
+      display: flex;
+      padding: 15px;
+      border-top: 1px solid #ccc;
+      background: var(--color-bg-light);
+      transition: background-color var(--transition-speed);
+    }
+    body.dark #inputArea {
+      background: #222;
+      border-top-color: #555;
+    }
+    #msgInput {
+      flex: 1;
+      padding: 10px 15px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    #msgInput:focus {
+      border-color: var(--color-accent);
+    }
+    #sendBtn {
+      margin-left: 10px;
+      background: var(--color-accent);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 18px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background-color 0.3s;
+    }
+    #sendBtn:hover {
+      background: #5e35b1;
+    }
+    #settingsPanel {
+      position: fixed;
+      top: 60px;
+      right: -280px;
+      width: 280px;
+      background: var(--color-bg-light);
+      box-shadow: -4px 0 15px rgba(0,0,0,0.2);
+      border-left: 3px solid var(--color-accent);
+      padding: 20px;
+      transition: right 0.4s ease;
+      z-index: 100;
+      font-size: 1rem;
+      color: var(--color-text-light);
+    }
+    body.dark #settingsPanel {
+      background: var(--color-bg-dark);
+      color: var(--color-text-dark);
+      border-left-color: #9c7aff;
+    }
+    #settingsPanel.open {
+      right: 0;
+    }
+    #settingsPanel h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-weight: 700;
+      color: var(--color-accent);
+    }
+    #settingsPanel label {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      cursor: pointer;
+      user-select: none;
+    }
+    #settingsPanel input[type="checkbox"], 
+    #settingsPanel select {
+      margin-right: 12px;
+      cursor: pointer;
+      height: 18px;
+      width: 18px;
+    }
+    #settingsPanel select {
+      padding: 3px 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      outline: none;
+      flex: 1;
+      font-size: 1rem;
+    }
+    body.dark #settingsPanel select {
+      background: #444;
+      border-color: #666;
+      color: var(--color-text-dark);
+    }
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Unutulmuş Tarihî ve Mizahi Olaylar</h1>
+  <header>
+    <div>Rastgele Sohbet</div>
+    <button id="settingsToggle" aria-label="Ayarlar">⚙️</button>
+  </header>
 
-  <div id="news-container"></div>
+  <div id="chatContainer" aria-live="polite" aria-relevant="additions"></div>
 
+  <form id="inputArea" autocomplete="off">
+    <input type="text" id="msgInput" placeholder="Mesajınızı yazın..." required maxlength="500" aria-label="Mesaj kutusu" />
+    <button type="submit" id="sendBtn" aria-label="Mesaj gönder">Gönder</button>
+  </form>
+
+  <aside id="settingsPanel" aria-label="Ayarlar paneli" role="region" aria-hidden="true">
+    <h3>Ayarlar</h3>
+    <label><input type="checkbox" id="darkModeToggle" /> Karanlık Mod</label>
+    <label for="langSelect">Dil Seçimi:</label>
+    <select id="langSelect" aria-label="Dil seçimi">
+      <option value="tr">Türkçe</option>
+      <option value="en">English</option>
+    </select>
+  </aside>
+
+  <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
   <script>
-    const newsContainer = document.getElementById('news-container');
-
-    // Örnek 1000 haber: çoğu komik, bazıları tarihî doğruluk için linkli
-    const newsList = [];
-
-    // Örnek mizahi haberler (20 tane, geri kalan 980 genel doldurma)
-    const funnyNews = [
-      {
-        title: "1977 - İstanbul'da Kedi Festivali",
-        description: "İstanbul sokaklarında binlerce kedi toplandı ve kendi aralarında 'miyav demokrasi' kurdu.",
-        link: "https://tr.wikipedia.org/wiki/Kedi"
+    // Dil metinleri
+    const texts = {
+      tr: {
+        placeholder: "Mesajınızı yazın...",
+        sendBtn: "Gönder",
+        settings: "Ayarlar",
+        darkMode: "Karanlık Mod",
+        lang: "Dil Seçimi"
       },
-      {
-        title: "1984 - Ankara'da Dev Pizza Krizi",
-        description: "Bir pizzacı yanlışlıkla 2 metre çapında pizza yapınca trafik kilitlendi.",
-        link: "https://tr.wikipedia.org/wiki/Pizza"
-      },
-      {
-        title: "1992 - İzmir'de Kaybolan Tavuklar",
-        description: "Bir mahallede tavuklar topluca kaçtı, nedeni hala bilinmiyor.",
-        link: "https://tr.wikipedia.org/wiki/Tavuk"
-      },
-      {
-        title: "2001 - Bursa'da Gökyüzüne Yönelik Dev Işık",
-        description: "Bir düğün partisi lazer gösterisi gökyüzünü aydınlattı, komşular UFO sandı.",
-        link: "https://tr.wikipedia.org/wiki/Lazer"
-      },
-      {
-        title: "1989 - Antalya Sahillerinde Dev Denizanası",
-        description: "Turistler dev denizanası gördü, bilim insanları şaşkın.",
-        link: "https://tr.wikipedia.org/wiki/Denizanası"
+      en: {
+        placeholder: "Type your message...",
+        sendBtn: "Send",
+        settings: "Settings",
+        darkMode: "Dark Mode",
+        lang: "Language"
       }
-      // daha eklenebilir
-    ];
+    };
 
-    // Mizahi haberleri 20 olarak al, geri kalan 980 haber 'Sıradan Haber #' olarak doldurulacak
-    for(let i=1; i<=980; i++) {
-      newsList.push({
-        title: `Sıradan Haber #${i}`,
-        description: `${i}. sıradan ama unutulmuş tarihî olay.`,
-        link: "https://tr.wikipedia.org/wiki/Tarih"
+    // Elemanlar
+    const body = document.body;
+    const settingsToggle = document.getElementById('settingsToggle');
+    const settingsPanel = document.getElementById('settingsPanel');
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const langSelect = document.getElementById('langSelect');
+    const chatContainer = document.getElementById('chatContainer');
+    const inputArea = document.getElementById('inputArea');
+    const msgInput = document.getElementById('msgInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    let currentLang = 'tr';
+
+    // Ayarlar paneli aç/kapa
+    settingsToggle.addEventListener('click', () => {
+      const isOpen = settingsPanel.classList.toggle('open');
+      settingsPanel.setAttribute('aria-hidden', !isOpen);
+    });
+
+    // Karanlık mod toggle
+    darkModeToggle.addEventListener('change', () => {
+      if(darkModeToggle.checked) {
+        body.classList.add('dark');
+      } else {
+        body.classList.remove('dark');
+      }
+    });
+
+    // Dil değiştir
+    langSelect.addEventListener('change', () => {
+      currentLang = langSelect.value;
+      updateTexts();
+    });
+
+    function updateTexts() {
+      msgInput.placeholder = texts[currentLang].placeholder;
+      sendBtn.textContent = texts[currentLang].sendBtn;
+      settingsToggle.textContent = "⚙️";
+      // Başlık vb. statik bırakıldı ama geliştirilebilir
+    }
+
+    updateTexts();
+
+    // Socket.io bağlantısı
+    const socket = io();
+
+    socket.on('connect', () => {
+      appendSystemMessage(currentLang === 'tr' ? 'Sohbete bağlandınız.' : 'Connected to chat.');
+    });
+
+    socket.on('disconnect', () => {
+      appendSystemMessage(currentLang === 'tr' ? 'Sohbet bağlantısı kesildi.' : 'Disconnected from chat.');
+    });
+
+    socket.on('full', (msg) => {
+      appendSystemMessage(msg);
+    });
+
+    socket.on('system', (msg) => {
+      appendSystemMessage(msg);
+    });
+
+    socket.on('chat message', (data) => {
+      const isSelf = data.sender === socket.id;
+      appendChatMessage(data.message, isSelf);
+    });
+
+    // Mesaj gönderme
+    inputArea.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const msg = msgInput.value.trim();
+      if(msg.length === 0) return;
+      socket.emit('chat message', msg);
+      msgInput.value = '';
+      msgInput.focus();
+    });
+
+    // Mesaj ekleme fonksiyonu
+    function appendChatMessage(message, isSelf) {
+      const div = document.createElement('div');
+      div.classList.add('message');
+      div.classList.add(isSelf ? 'self' : 'other');
+      div.textContent = message;
+      chatContainer.appendChild(div);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+      // Animasyon tetikleme için
+      requestAnimationFrame(() => {
+        div.style.opacity = '1';
+        div.style.transform = 'translateY(0)';
       });
     }
 
-    // Hepsini birleştir, önce mizah sonra ciddi
-    const allNews = funnyNews.concat(newsList);
-
-    // 1000 haber yapmak için 20 mizah + 980 dolgu = 1000 toplam
-    // Döngü ile HTML oluşturuluyor
-
-    let html = "";
-    allNews.forEach(item => {
-      html += `<div style="margin-bottom: 15px; border-bottom:1px solid #ccc; padding-bottom:10px;">
-        <h3>${item.title}</h3>
-        <p>${item.description}</p>
-        <a href="${item.link}" target="_blank" rel="noopener noreferrer">Kaynak</a>
-      </div>`;
-    });
-
-    newsContainer.innerHTML = html;
+    // Sistem mesajı ekle
+    function appendSystemMessage(message) {
+      const div = document.createElement('div');
+      div.classList.add('message');
+      div.style.background = '#888';
+      div.style.color = '#fff';
+      div.style.textAlign = 'center';
+      div.style.fontStyle = 'italic';
+      div.style.borderRadius = '10px';
+      div.textContent = message;
+      chatContainer.appendChild(div);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
   </script>
 </body>
 </html>
