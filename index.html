@@ -3,368 +3,118 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Rastgele Sohbet - WhatsApp Stili</title>
+<title>Rastgele Sohbet - Çalışan Örnek</title>
 <style>
-  :root {
-    --color-bg-light: #f0f0f0;
-    --color-bg-dark: #121212;
-    --color-text-light: #222;
-    --color-text-dark: #ddd;
-    --color-primary: #25d366; /* WhatsApp yeşili */
-    --color-primary-dark: #128c40;
-    --transition-speed: 0.3s;
-  }
   body {
-    margin: 0; padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--color-bg-light);
-    color: var(--color-text-light);
-    height: 100vh;
-    display: flex; flex-direction: column;
-    transition: background-color var(--transition-speed), color var(--transition-speed);
-  }
-  body.dark {
-    background-color: var(--color-bg-dark);
-    color: var(--color-text-dark);
-  }
-  header {
-    background-color: var(--color-primary);
-    color: white;
-    padding: 15px 25px;
-    font-weight: 700;
-    font-size: 1.4rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  }
-  #settingsToggle {
-    background: white;
-    border: none;
-    border-radius: 50%;
-    width: 32px; height: 32px;
-    cursor: pointer;
-    font-size: 18px;
-    color: var(--color-primary);
-    display: flex; align-items: center; justify-content: center;
-    transition: background-color 0.3s ease;
-  }
-  #settingsToggle:hover {
-    background: #e0f2f1;
+    font-family: Arial, sans-serif;
+    margin:0; padding:0; height:100vh;
+    display:flex; flex-direction:column;
   }
   #chatContainer {
-    flex-grow: 1;
-    padding: 15px;
+    flex-grow:1;
+    padding: 10px;
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    background: #e5ddd5;
-    transition: background-color var(--transition-speed);
-  }
-  body.dark #chatContainer {
-    background: #222;
+    background: #eee;
   }
   .message {
-    max-width: 75%;
-    padding: 10px 14px;
-    border-radius: 20px;
-    position: relative;
-    animation: fadeInUp 0.3s ease forwards;
-    opacity: 0;
-    transform: translateY(20px);
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    max-width: 70%;
     word-wrap: break-word;
-    line-height: 1.3;
   }
-  .message.self {
-    align-self: flex-end;
-    background-color: var(--color-primary);
+  .self {
+    background: #4caf50;
     color: white;
-    border-bottom-right-radius: 4px;
-    box-shadow: 0 1px 3px rgba(37, 211, 102, 0.7);
+    align-self: flex-end;
   }
-  .message.other {
+  .other {
+    background: #ddd;
+    color: #333;
     align-self: flex-start;
-    background-color: white;
-    color: var(--color-text-light);
-    border-bottom-left-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  }
-  body.dark .message.other {
-    background-color: #333;
-    color: var(--color-text-dark);
-    box-shadow: none;
-  }
-  .sender {
-    font-size: 0.75rem;
-    font-weight: 600;
-    margin-bottom: 4px;
-    opacity: 0.7;
   }
   #inputArea {
     display: flex;
-    padding: 15px;
+    padding: 10px;
+    border-top: 1px solid #ccc;
     background: white;
-    border-top: 1px solid #ddd;
-    transition: background-color var(--transition-speed);
-  }
-  body.dark #inputArea {
-    background: #111;
-    border-top-color: #444;
   }
   #msgInput {
-    flex: 1;
-    padding: 12px 18px;
+    flex-grow: 1;
+    padding: 10px;
     font-size: 1rem;
-    border: none;
-    border-radius: 25px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
     outline: none;
-    background: #f1f1f1;
-    transition: background-color 0.3s;
-  }
-  body.dark #msgInput {
-    background: #333;
-    color: var(--color-text-dark);
-  }
-  #msgInput::placeholder {
-    color: #999;
   }
   #sendBtn {
-    margin-left: 12px;
-    background-color: var(--color-primary);
+    margin-left: 8px;
+    padding: 10px 18px;
+    font-size: 1rem;
+    background: #4caf50;
     border: none;
-    border-radius: 50%;
-    width: 44px; height: 44px;
-    cursor: pointer;
-    display: flex; justify-content: center; align-items: center;
     color: white;
-    font-size: 20px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    transition: background-color 0.3s ease;
+    border-radius: 20px;
+    cursor: pointer;
   }
   #sendBtn:hover {
-    background-color: var(--color-primary-dark);
-  }
-  #settingsPanel {
-    position: fixed;
-    top: 60px;
-    right: -300px;
-    width: 280px;
-    background: var(--color-bg-light);
-    box-shadow: -4px 0 20px rgba(0,0,0,0.2);
-    border-left: 3px solid var(--color-primary);
-    padding: 20px;
-    transition: right 0.4s ease;
-    z-index: 100;
-    color: var(--color-text-light);
-    font-size: 1rem;
-  }
-  body.dark #settingsPanel {
-    background: var(--color-bg-dark);
-    color: var(--color-text-dark);
-    border-left-color: var(--color-primary-dark);
-  }
-  #settingsPanel.open {
-    right: 0;
-  }
-  #settingsPanel h3 {
-    margin-top: 0;
-    margin-bottom: 20px;
-    font-weight: 700;
-    color: var(--color-primary);
-  }
-  #settingsPanel label {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-    cursor: pointer;
-    user-select: none;
-  }
-  #settingsPanel input[type="checkbox"],
-  #settingsPanel select {
-    margin-right: 12px;
-    cursor: pointer;
-    height: 18px;
-    width: 18px;
-  }
-  #settingsPanel select {
-    padding: 4px 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    outline: none;
-    flex: 1;
-    font-size: 1rem;
-  }
-  body.dark #settingsPanel select {
-    background: #444;
-    border-color: #666;
-    color: var(--color-text-dark);
-  }
-  @keyframes fadeInUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    background: #388e3c;
   }
 </style>
 </head>
 <body>
-  <header>
-    <div>Rastgele Sohbet</div>
-    <button id="settingsToggle" aria-label="Ayarlar">⚙️</button>
-  </header>
-
-  <div id="chatContainer" aria-live="polite" aria-relevant="additions"></div>
+  <div id="chatContainer"></div>
 
   <form id="inputArea" autocomplete="off">
-    <input type="text" id="msgInput" placeholder="Mesajınızı yazın..." required maxlength="500" aria-label="Mesaj kutusu" />
-    <button type="submit" id="sendBtn" aria-label="Mesaj gönder">➤</button>
+    <input type="text" id="msgInput" placeholder="Mesajınızı yazın..." required />
+    <button type="submit" id="sendBtn">Gönder</button>
   </form>
-
-  <aside id="settingsPanel" aria-label="Ayarlar paneli" role="region" aria-hidden="true">
-    <h3>Ayarlar</h3>
-    <label><input type="checkbox" id="darkModeToggle" /> Karanlık Mod</label>
-    <label for="langSelect">Dil Seçimi:</label>
-    <select id="langSelect" aria-label="Dil seçimi">
-      <option value="tr">Türkçe</option>
-      <option value="en">English</option>
-    </select>
-  </aside>
 
   <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
   <script>
-    const texts = {
-      tr: {
-        placeholder: "Mesajınızı yazın...",
-        sendBtn: "➤",
-        settings: "Ayarlar",
-        darkMode: "Karanlık Mod",
-        lang: "Dil Seçimi",
-        connected: "Sohbete bağlandınız.",
-        disconnected: "Sohbet bağlantısı kesildi.",
-        full: "Sohbet kapasitesi dolu, daha sonra tekrar deneyiniz.",
-        newUser: "Yeni kullanıcı katıldı.",
-        userLeft: "Kullanıcı ayrıldı."
-      },
-      en: {
-        placeholder: "Type your message...",
-        sendBtn: "➤",
-        settings: "Settings",
-        darkMode: "Dark Mode",
-        lang: "Language",
-        connected: "Connected to chat.",
-        disconnected: "Disconnected from chat.",
-        full: "Chat capacity full, please try later.",
-        newUser: "New user joined.",
-        userLeft: "User left the chat."
-      }
-    };
+    const socket = io();
 
-    const body = document.body;
-    const settingsToggle = document.getElementById('settingsToggle');
-    const settingsPanel = document.getElementById('settingsPanel');
-    const darkModeToggle = document.getElementById('darkModeToggle');
-    const langSelect = document.getElementById('langSelect');
     const chatContainer = document.getElementById('chatContainer');
     const inputArea = document.getElementById('inputArea');
     const msgInput = document.getElementById('msgInput');
-    const sendBtn = document.getElementById('sendBtn');
 
-    let currentLang = 'tr';
-
-    settingsToggle.addEventListener('click', () => {
-      const open = settingsPanel.classList.toggle('open');
-      settingsPanel.setAttribute('aria-hidden', !open);
-    });
-
-    darkModeToggle.addEventListener('change', () => {
-      if(darkModeToggle.checked) {
-        body.classList.add('dark');
-      } else {
-        body.classList.remove('dark');
-      }
-    });
-
-    langSelect.addEventListener('change', () => {
-      currentLang = langSelect.value;
-      updateTexts();
-    });
-
-    function updateTexts() {
-      msgInput.placeholder = texts[currentLang].placeholder;
-      sendBtn.textContent = texts[currentLang].sendBtn;
+    // Mesaj ekleme fonksiyonu
+    function addMessage(text, isSelf) {
+      const div = document.createElement('div');
+      div.classList.add('message');
+      div.classList.add(isSelf ? 'self' : 'other');
+      div.textContent = text;
+      div.style.alignSelf = isSelf ? 'flex-end' : 'flex-start';
+      chatContainer.appendChild(div);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
     }
-    updateTexts();
-
-    const socket = io();
 
     socket.on('connect', () => {
-      appendSystemMessage(texts[currentLang].connected);
+      addMessage('Sohbete bağlandınız.', true);
     });
 
-    socket.on('disconnect', () => {
-      appendSystemMessage(texts[currentLang].disconnected);
+    socket.on('chat message', data => {
+      // Eğer mesaj gönderen bizsek, self olarak göster, değilse other.
+      const isSelf = data.senderId === socket.id;
+      addMessage(data.message, isSelf);
     });
 
-    socket.on('full', (msg) => {
-      appendSystemMessage(msg);
+    socket.on('system', msg => {
+      addMessage(`[Sistem] ${msg}`, false);
     });
 
-    socket.on('system', (msg) => {
-      appendSystemMessage(msg);
-    });
-
-    socket.on('chat message', (data) => {
-      const isSelf = data.sender === socket.id;
-      appendChatMessage(data.message, isSelf);
+    socket.on('full', msg => {
+      alert(msg);
     });
 
     inputArea.addEventListener('submit', e => {
       e.preventDefault();
-      const msg = msgInput.value.trim();
-      if(!msg) return;
-      socket.emit('chat message', msg);
+      const message = msgInput.value.trim();
+      if (!message) return;
+      socket.emit('chat message', message);
       msgInput.value = '';
       msgInput.focus();
     });
-
-    function appendChatMessage(message, isSelf) {
-      const div = document.createElement('div');
-      div.classList.add('message');
-      div.classList.add(isSelf ? 'self' : 'other');
-
-      if(!isSelf) {
-        const senderTag = document.createElement('div');
-        senderTag.className = 'sender';
-        senderTag.textContent = 'Karşı taraf';
-        div.appendChild(senderTag);
-      }
-
-      const msgText = document.createElement('div');
-      msgText.textContent = message;
-      div.appendChild(msgText);
-
-      chatContainer.appendChild(div);
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-
-      requestAnimationFrame(() => {
-        div.style.opacity = '1';
-        div.style.transform = 'translateY(0)';
-      });
-    }
-
-    function appendSystemMessage(message) {
-      const div = document.createElement('div');
-      div.className = 'message';
-      div.style.backgroundColor = '#888';
-      div.style.color = '#fff';
-      div.style.textAlign = 'center';
-      div.style.fontStyle = 'italic';
-      div.style.borderRadius = '12px';
-      div.textContent = message;
-      chatContainer.appendChild(div);
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-    }
   </script>
 </body>
 </html>
