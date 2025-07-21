@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unutulmuş Tarihî Olaylar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Unbounded', sans-serif;
+      background: linear-gradient(to right, #e6d6b8, #f0eee6);
+      color: #2d2d2d;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 20px;
+      animation: fadeInDown 1s ease forwards;
+    }
+
+    .event-box {
+      background: #fff9ee;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      padding: 20px 30px;
+      max-width: 600px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.5s ease;
+    }
+
+    .event-box.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    button {
+      margin-top: 30px;
+      background: #402e1c;
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background: #2d1f13;
+    }
+
+    @keyframes fadeInDown {
+      0% { opacity: 0; transform: translateY(-30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <h1>Unutulmuş Türk Tarihinden Rastgele Olay</h1>
+  <div class="event-box" id="eventBox"></div>
+  <button onclick="showRandomEvent()">🎲 Rastgele Olay Göster</button>
+
+  <script>
+    const events = [
+      {
+        title: "1959 - Uşak'ta UFO Görüldüğü İddiası",
+        description: "Uşak’ta bazı köylüler gökyüzünde parlayan bir cisim gördüklerini iddia etti. Olay yerel basında yer aldı."
+      },
+      {
+        title: "1933 - İstanbul Radyosu'nun İlk Yayını",
+        description: "Cumhuriyetin ilk yıllarında İstanbul Radyosu, 6 Mayıs 1933’te ilk kez yayın yaptı."
+      },
+      {
+        title: "1981 - İstanbul'da Camiye Yıldırım Düşmesi",
+        description: "Eyüp Sultan’da bir camiye yıldırım düştü; minare zarar gördü fakat can kaybı yaşanmadı."
+      },
+      {
+        title: "1970 - Gediz Depremi",
+        description: "Kütahya'nın Gediz ilçesinde meydana gelen büyük deprem 1086 kişinin ölümüne sebep oldu."
+      },
+      {
+        title: "1987 - Adana Karpuz Savaşı",
+        description: "Adana’da çıkan bir karpuz anlaşmazlığı, köy halkının birbirine karpuz fırlattığı 'savaş'a dönüştü."
+      }
+    ];
+
+    function showRandomEvent() {
+      const box = document.getElementById('eventBox');
+      const random = events[Math.floor(Math.random() * events.length)];
+      box.innerHTML = `<h2>${random.title}</h2><p>${random.description}</p>`;
+      box.classList.add('show');
+    }
+  </script>
+</body>
+</html>
