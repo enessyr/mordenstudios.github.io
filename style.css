@@ -1,169 +1,152 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Unutulmuş Tarihî Olaylar</title>
-  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Unbounded', sans-serif;
-      background: linear-gradient(to right, #e6d6b8, #f0eee6);
-      color: #2d2d2d;
-      overflow-x: hidden;
-    }
+:root {
+  --primary-color: #5b3a1a;
+  --secondary-color: #d9cbb6;
+  --background-light: #fef9f3;
+  --text-dark: #3a2e23;
+  --shadow-color: rgba(91, 58, 26, 0.25);
+}
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px;
-      background: #402e1c;
-      color: #fff;
-    }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Unbounded', cursive, sans-serif;
+}
 
-    .settings-toggle {
-      background: #fff;
-      color: #402e1c;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
+body {
+  background: var(--background-light);
+  color: var(--text-dark);
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
-    .settings-toggle:hover {
-      background: #d1b497;
-    }
+header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 3px 10px var(--shadow-color);
+}
 
-    .settings-panel {
-      position: fixed;
-      top: 60px;
-      right: -300px;
-      width: 250px;
-      background: #fffdf9;
-      border-left: 2px solid #d3bfa7;
-      box-shadow: -5px 0 10px rgba(0,0,0,0.1);
-      padding: 20px;
-      transition: right 0.5s ease;
-      z-index: 999;
-    }
+.settings-toggle {
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background-color 0.3s ease;
+}
 
-    .settings-panel.open {
-      right: 0;
-    }
+.settings-toggle:hover {
+  background-color: #cbb797;
+}
 
-    .settings-panel h3 {
-      margin-top: 0;
-      font-size: 1.2rem;
-    }
+.settings-panel {
+  position: fixed;
+  top: 60px;
+  right: -300px;
+  width: 280px;
+  background-color: var(--background-light);
+  border-left: 3px solid var(--primary-color);
+  box-shadow: -6px 0 20px rgba(0,0,0,0.1);
+  padding: 25px;
+  transition: right 0.4s ease;
+  z-index: 1000;
+  font-size: 1rem;
+}
 
-    .settings-panel label {
-      display: block;
-      margin: 10px 0 5px;
-    }
+.settings-panel.open {
+  right: 0;
+}
 
-    main {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 90vh;
-    }
+.settings-panel h3 {
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+}
 
-    h1 {
-      font-size: 2.5rem;
-      text-align: center;
-      margin-bottom: 20px;
-      animation: fadeInDown 1s ease forwards;
-    }
+.settings-panel label {
+  display: block;
+  margin-bottom: 12px;
+  cursor: pointer;
+  user-select: none;
+}
 
-    .event-box {
-      background: #fff9ee;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      padding: 20px 30px;
-      max-width: 600px;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.5s ease;
-    }
+main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+}
 
-    .event-box.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
+h1 {
+  font-size: 3rem;
+  margin-bottom: 30px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 1px;
+  user-select: none;
+  animation: fadeInDown 1s ease forwards;
+}
 
-    button.show-event {
-      margin-top: 30px;
-      background: #402e1c;
-      color: #fff;
-      border: none;
-      padding: 12px 24px;
-      font-size: 1rem;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
+.event-box {
+  background-color: white;
+  max-width: 650px;
+  padding: 30px 35px;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px var(--shadow-color);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.5s ease;
+}
 
-    button.show-event:hover {
-      background: #2d1f13;
-    }
+.event-box.show {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-    @keyframes fadeInDown {
-      0% { opacity: 0; transform: translateY(-30px); }
-      100% { opacity: 1; transform: translateY(0); }
-    }
-  </style>
-</head>
-<body>
-  <audio id="bg-music" autoplay loop>
-    <source src="https://cdn.pixabay.com/download/audio/2023/03/15/audio_dadf00f7dc.mp3?filename=background-soft-ambient-142788.mp3" type="audio/mpeg">
-  </audio>
+.event-box h2 {
+  color: var(--primary-color);
+  font-weight: 800;
+  margin-bottom: 12px;
+  font-size: 2rem;
+}
 
-  <header>
-    <h1>Unutulmuş Türk Tarihinden Rastgele Olay</h1>
-    <button class="settings-toggle" onclick="toggleSettings()">⚙ Ayarlar</button>
-  </header>
+.event-box p {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: #4e4338;
+}
 
-  <div class="settings-panel" id="settingsPanel">
-    <h3>🔧 Ayarlar</h3>
-    <label><input type="checkbox" onclick="toggleMusic(this)"> Arka Plan Müziği</label>
-    <label><input type="checkbox"> Karanlık Mod (hazırlanıyor)</label>
-  </div>
+button.show-event {
+  margin-top: 40px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 14px 36px;
+  font-size: 1.1rem;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 700;
+  box-shadow: 0 5px 15px var(--shadow-color);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
 
-  <main>
-    <div class="event-box" id="eventBox"></div>
-    <button class="show-event" onclick="showRandomEvent()">🎲 Rastgele Olay Göster</button>
-  </main>
+button.show-event:hover {
+  background-color: #3e2713;
+  transform: scale(1.05);
+}
 
-  <script>
-    const events = [];
-    for (let i = 1; i <= 50; i++) {
-      events.push({
-        title: `Tarihî Olay ${i}`,
-        description: `${i}. olayın açıklaması buraya yazılacaktır.`
-      });
-    }
-
-    function showRandomEvent() {
-      const box = document.getElementById('eventBox');
-      const random = events[Math.floor(Math.random() * events.length)];
-      box.innerHTML = `<h2>${random.title}</h2><p>${random.description}</p>`;
-      box.classList.add('show');
-    }
-
-    function toggleSettings() {
-      const panel = document.getElementById('settingsPanel');
-      panel.classList.toggle('open');
-    }
-
-    function toggleMusic(checkbox) {
-      const audio = document.getElementById('bg-music');
-      audio.muted = !checkbox.checked;
-    }
-  </script>
-</body>
-</html>
+@keyframes fadeInDown {
+  0% { opacity: 0; transform: translateY(-30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
