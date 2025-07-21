@@ -11,12 +11,57 @@
       font-family: 'Unbounded', sans-serif;
       background: linear-gradient(to right, #e6d6b8, #f0eee6);
       color: #2d2d2d;
+      overflow-x: hidden;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .settings-toggle {
+      background: #402e1c;
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .settings-panel {
+      position: fixed;
+      top: 60px;
+      right: -300px;
+      width: 250px;
+      background: #fffdf9;
+      border-left: 2px solid #d3bfa7;
+      box-shadow: -5px 0 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      transition: right 0.5s ease;
+    }
+
+    .settings-panel.open {
+      right: 0;
+    }
+
+    .settings-panel h3 {
+      margin-top: 0;
+      font-size: 1.2rem;
+    }
+
+    .settings-panel label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+
+    main {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      overflow: hidden;
+      min-height: 90vh;
     }
 
     h1 {
@@ -43,7 +88,7 @@
       transform: translateY(0);
     }
 
-    button {
+    button.show-event {
       margin-top: 30px;
       background: #402e1c;
       color: #fff;
@@ -55,7 +100,7 @@
       transition: background 0.3s;
     }
 
-    button:hover {
+    button.show-event:hover {
       background: #2d1f13;
     }
 
@@ -66,32 +111,38 @@
   </style>
 </head>
 <body>
-  <h1>Unutulmuş Türk Tarihinden Rastgele Olay</h1>
-  <div class="event-box" id="eventBox"></div>
-  <button onclick="showRandomEvent()">🎲 Rastgele Olay Göster</button>
+  <audio id="bg-music" autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2023/03/15/audio_dadf00f7dc.mp3?filename=background-soft-ambient-142788.mp3" type="audio/mpeg">
+  </audio>
+
+  <header>
+    <h1>Unutulmuş Türk Tarihinden Rastgele Olay</h1>
+    <button class="settings-toggle" onclick="toggleSettings()">⚙ Ayarlar</button>
+  </header>
+
+  <div class="settings-panel" id="settingsPanel">
+    <h3>🔧 Ayarlar</h3>
+    <label><input type="checkbox" onclick="toggleMusic(this)"> Arka Plan Müziği</label>
+    <label><input type="checkbox"> Karanlık Mod (hazırlanıyor)</label>
+  </div>
+
+  <main>
+    <div class="event-box" id="eventBox"></div>
+    <button class="show-event" onclick="showRandomEvent()">🎲 Rastgele Olay Göster</button>
+  </main>
 
   <script>
     const events = [
-      {
-        title: "1959 - Uşak'ta UFO Görüldüğü İddiası",
-        description: "Uşak’ta bazı köylüler gökyüzünde parlayan bir cisim gördüklerini iddia etti. Olay yerel basında yer aldı."
-      },
-      {
-        title: "1933 - İstanbul Radyosu'nun İlk Yayını",
-        description: "Cumhuriyetin ilk yıllarında İstanbul Radyosu, 6 Mayıs 1933’te ilk kez yayın yaptı."
-      },
-      {
-        title: "1981 - İstanbul'da Camiye Yıldırım Düşmesi",
-        description: "Eyüp Sultan’da bir camiye yıldırım düştü; minare zarar gördü fakat can kaybı yaşanmadı."
-      },
-      {
-        title: "1970 - Gediz Depremi",
-        description: "Kütahya'nın Gediz ilçesinde meydana gelen büyük deprem 1086 kişinin ölümüne sebep oldu."
-      },
-      {
-        title: "1987 - Adana Karpuz Savaşı",
-        description: "Adana’da çıkan bir karpuz anlaşmazlığı, köy halkının birbirine karpuz fırlattığı 'savaş'a dönüştü."
-      }
+      { title: "1959 - Uşak'ta UFO Görüldüğü İddiası", description: "Uşak’ta bazı köylüler gökyüzünde parlayan bir cisim gördüklerini iddia etti." },
+      { title: "1933 - İstanbul Radyosu'nun İlk Yayını", description: "6 Mayıs 1933’te İstanbul Radyosu ilk kez yayın yaptı." },
+      { title: "1981 - Camiye Yıldırım Düşmesi", description: "Eyüp Sultan’da bir camiye yıldırım düştü, minare zarar gördü." },
+      { title: "1970 - Gediz Depremi", description: "Kütahya Gediz’deki deprem 1086 kişinin ölümüne sebep oldu." },
+      { title: "1987 - Adana Karpuz Savaşı", description: "Adana’da karpuz yüzünden çıkan kavga köy savaşına dönüştü." },
+      { title: "1930 - Zile Ayaklanması", description: "Tokat’ın Zile ilçesinde vergi isyanı çıktı, bastırılması zaman aldı." },
+      { title: "1928 - Latin Alfabesi Kabulü", description: "1 Kasım 1928’de yeni Türk alfabesi yasalaştı." },
+      { title: "1945 - Dörtler Takımı", description: "İsmet İnönü’nün karşısına çıkan CHP içindeki dört muhalif milletvekili, çok partili sisteme geçişi başlattı." },
+      { title: "1991 - Taksim'de Gizemli Patlama", description: "Gece geç saatlerde patlayan sesin kaynağı bulunamadı." },
+      { title: "1984 - TRT'de Renkli Yayına Geçiş", description: "Türkiye'de televizyon yayını renkli hale geldi." }
     ];
 
     function showRandomEvent() {
@@ -99,6 +150,16 @@
       const random = events[Math.floor(Math.random() * events.length)];
       box.innerHTML = `<h2>${random.title}</h2><p>${random.description}</p>`;
       box.classList.add('show');
+    }
+
+    function toggleSettings() {
+      const panel = document.getElementById('settingsPanel');
+      panel.classList.toggle('open');
+    }
+
+    function toggleMusic(checkbox) {
+      const audio = document.getElementById('bg-music');
+      audio.muted = !checkbox.checked;
     }
   </script>
 </body>
