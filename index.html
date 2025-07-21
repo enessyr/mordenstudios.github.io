@@ -1,195 +1,212 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Rastgele Sohbet</title>
-  <style>
-    :root {
-      --color-bg-light: #f5f5f5;
-      --color-bg-dark: #1e1e1e;
-      --color-text-light: #222;
-      --color-text-dark: #eee;
-      --color-accent: #7c4dff;
-      --transition-speed: 0.3s;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Rastgele Sohbet - WhatsApp Stili</title>
+<style>
+  :root {
+    --color-bg-light: #f0f0f0;
+    --color-bg-dark: #121212;
+    --color-text-light: #222;
+    --color-text-dark: #ddd;
+    --color-primary: #25d366; /* WhatsApp yeşili */
+    --color-primary-dark: #128c40;
+    --transition-speed: 0.3s;
+  }
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--color-bg-light);
+    color: var(--color-text-light);
+    height: 100vh;
+    display: flex; flex-direction: column;
+    transition: background-color var(--transition-speed), color var(--transition-speed);
+  }
+  body.dark {
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-dark);
+  }
+  header {
+    background-color: var(--color-primary);
+    color: white;
+    padding: 15px 25px;
+    font-weight: 700;
+    font-size: 1.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+  #settingsToggle {
+    background: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px; height: 32px;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--color-primary);
+    display: flex; align-items: center; justify-content: center;
+    transition: background-color 0.3s ease;
+  }
+  #settingsToggle:hover {
+    background: #e0f2f1;
+  }
+  #chatContainer {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #e5ddd5;
+    transition: background-color var(--transition-speed);
+  }
+  body.dark #chatContainer {
+    background: #222;
+  }
+  .message {
+    max-width: 75%;
+    padding: 10px 14px;
+    border-radius: 20px;
+    position: relative;
+    animation: fadeInUp 0.3s ease forwards;
+    opacity: 0;
+    transform: translateY(20px);
+    word-wrap: break-word;
+    line-height: 1.3;
+  }
+  .message.self {
+    align-self: flex-end;
+    background-color: var(--color-primary);
+    color: white;
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 1px 3px rgba(37, 211, 102, 0.7);
+  }
+  .message.other {
+    align-self: flex-start;
+    background-color: white;
+    color: var(--color-text-light);
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  body.dark .message.other {
+    background-color: #333;
+    color: var(--color-text-dark);
+    box-shadow: none;
+  }
+  .sender {
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    opacity: 0.7;
+  }
+  #inputArea {
+    display: flex;
+    padding: 15px;
+    background: white;
+    border-top: 1px solid #ddd;
+    transition: background-color var(--transition-speed);
+  }
+  body.dark #inputArea {
+    background: #111;
+    border-top-color: #444;
+  }
+  #msgInput {
+    flex: 1;
+    padding: 12px 18px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 25px;
+    outline: none;
+    background: #f1f1f1;
+    transition: background-color 0.3s;
+  }
+  body.dark #msgInput {
+    background: #333;
+    color: var(--color-text-dark);
+  }
+  #msgInput::placeholder {
+    color: #999;
+  }
+  #sendBtn {
+    margin-left: 12px;
+    background-color: var(--color-primary);
+    border: none;
+    border-radius: 50%;
+    width: 44px; height: 44px;
+    cursor: pointer;
+    display: flex; justify-content: center; align-items: center;
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    transition: background-color 0.3s ease;
+  }
+  #sendBtn:hover {
+    background-color: var(--color-primary-dark);
+  }
+  #settingsPanel {
+    position: fixed;
+    top: 60px;
+    right: -300px;
+    width: 280px;
+    background: var(--color-bg-light);
+    box-shadow: -4px 0 20px rgba(0,0,0,0.2);
+    border-left: 3px solid var(--color-primary);
+    padding: 20px;
+    transition: right 0.4s ease;
+    z-index: 100;
+    color: var(--color-text-light);
+    font-size: 1rem;
+  }
+  body.dark #settingsPanel {
+    background: var(--color-bg-dark);
+    color: var(--color-text-dark);
+    border-left-color: var(--color-primary-dark);
+  }
+  #settingsPanel.open {
+    right: 0;
+  }
+  #settingsPanel h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: var(--color-primary);
+  }
+  #settingsPanel label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    cursor: pointer;
+    user-select: none;
+  }
+  #settingsPanel input[type="checkbox"],
+  #settingsPanel select {
+    margin-right: 12px;
+    cursor: pointer;
+    height: 18px;
+    width: 18px;
+  }
+  #settingsPanel select {
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    outline: none;
+    flex: 1;
+    font-size: 1rem;
+  }
+  body.dark #settingsPanel select {
+    background: #444;
+    border-color: #666;
+    color: var(--color-text-dark);
+  }
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
-    body {
-      margin: 0; padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--color-bg-light);
-      color: var(--color-text-light);
-      display: flex; flex-direction: column;
-      height: 100vh;
-      transition: background-color var(--transition-speed), color var(--transition-speed);
-    }
-    body.dark {
-      background-color: var(--color-bg-dark);
-      color: var(--color-text-dark);
-    }
-    header {
-      background: var(--color-accent);
-      color: white;
-      padding: 15px 25px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 700;
-      font-size: 1.4rem;
-      box-shadow: 0 3px 8px rgba(124, 77, 255, 0.5);
-    }
-    #settingsToggle {
-      background: white;
-      border: none;
-      border-radius: 6px;
-      padding: 8px 14px;
-      cursor: pointer;
-      font-weight: 600;
-      color: var(--color-accent);
-      transition: background-color 0.3s ease;
-    }
-    #settingsToggle:hover {
-      background: #ddd;
-    }
-    #chatContainer {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      padding: 15px;
-      overflow-y: auto;
-      scroll-behavior: smooth;
-    }
-    .message {
-      max-width: 70%;
-      padding: 12px 18px;
-      margin-bottom: 12px;
-      border-radius: 16px;
-      position: relative;
-      animation: fadeInUp 0.4s ease forwards;
-      opacity: 0;
-      transform: translateY(20px);
-      word-wrap: break-word;
-      line-height: 1.3;
-    }
-    .message.self {
-      background: var(--color-accent);
-      color: white;
-      align-self: flex-end;
-      border-bottom-right-radius: 2px;
-      animation-delay: 0.1s;
-    }
-    .message.other {
-      background: #ccc;
-      color: #222;
-      align-self: flex-start;
-      border-bottom-left-radius: 2px;
-      animation-delay: 0.2s;
-    }
-    body.dark .message.other {
-      background: #444;
-      color: var(--color-text-dark);
-    }
-    body.dark .message.self {
-      background: #9c7aff;
-    }
-    #inputArea {
-      display: flex;
-      padding: 15px;
-      border-top: 1px solid #ccc;
-      background: var(--color-bg-light);
-      transition: background-color var(--transition-speed);
-    }
-    body.dark #inputArea {
-      background: #222;
-      border-top-color: #555;
-    }
-    #msgInput {
-      flex: 1;
-      padding: 10px 15px;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 20px;
-      outline: none;
-      transition: border-color 0.3s;
-    }
-    #msgInput:focus {
-      border-color: var(--color-accent);
-    }
-    #sendBtn {
-      margin-left: 10px;
-      background: var(--color-accent);
-      color: white;
-      border: none;
-      border-radius: 20px;
-      padding: 10px 18px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: background-color 0.3s;
-    }
-    #sendBtn:hover {
-      background: #5e35b1;
-    }
-    #settingsPanel {
-      position: fixed;
-      top: 60px;
-      right: -280px;
-      width: 280px;
-      background: var(--color-bg-light);
-      box-shadow: -4px 0 15px rgba(0,0,0,0.2);
-      border-left: 3px solid var(--color-accent);
-      padding: 20px;
-      transition: right 0.4s ease;
-      z-index: 100;
-      font-size: 1rem;
-      color: var(--color-text-light);
-    }
-    body.dark #settingsPanel {
-      background: var(--color-bg-dark);
-      color: var(--color-text-dark);
-      border-left-color: #9c7aff;
-    }
-    #settingsPanel.open {
-      right: 0;
-    }
-    #settingsPanel h3 {
-      margin-top: 0;
-      margin-bottom: 20px;
-      font-weight: 700;
-      color: var(--color-accent);
-    }
-    #settingsPanel label {
-      display: flex;
-      align-items: center;
-      margin-bottom: 15px;
-      cursor: pointer;
-      user-select: none;
-    }
-    #settingsPanel input[type="checkbox"], 
-    #settingsPanel select {
-      margin-right: 12px;
-      cursor: pointer;
-      height: 18px;
-      width: 18px;
-    }
-    #settingsPanel select {
-      padding: 3px 6px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      outline: none;
-      flex: 1;
-      font-size: 1rem;
-    }
-    body.dark #settingsPanel select {
-      background: #444;
-      border-color: #666;
-      color: var(--color-text-dark);
-    }
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
   <header>
@@ -201,7 +218,7 @@
 
   <form id="inputArea" autocomplete="off">
     <input type="text" id="msgInput" placeholder="Mesajınızı yazın..." required maxlength="500" aria-label="Mesaj kutusu" />
-    <button type="submit" id="sendBtn" aria-label="Mesaj gönder">Gönder</button>
+    <button type="submit" id="sendBtn" aria-label="Mesaj gönder">➤</button>
   </form>
 
   <aside id="settingsPanel" aria-label="Ayarlar paneli" role="region" aria-hidden="true">
@@ -216,25 +233,33 @@
 
   <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
   <script>
-    // Dil metinleri
     const texts = {
       tr: {
         placeholder: "Mesajınızı yazın...",
-        sendBtn: "Gönder",
+        sendBtn: "➤",
         settings: "Ayarlar",
         darkMode: "Karanlık Mod",
-        lang: "Dil Seçimi"
+        lang: "Dil Seçimi",
+        connected: "Sohbete bağlandınız.",
+        disconnected: "Sohbet bağlantısı kesildi.",
+        full: "Sohbet kapasitesi dolu, daha sonra tekrar deneyiniz.",
+        newUser: "Yeni kullanıcı katıldı.",
+        userLeft: "Kullanıcı ayrıldı."
       },
       en: {
         placeholder: "Type your message...",
-        sendBtn: "Send",
+        sendBtn: "➤",
         settings: "Settings",
         darkMode: "Dark Mode",
-        lang: "Language"
+        lang: "Language",
+        connected: "Connected to chat.",
+        disconnected: "Disconnected from chat.",
+        full: "Chat capacity full, please try later.",
+        newUser: "New user joined.",
+        userLeft: "User left the chat."
       }
     };
 
-    // Elemanlar
     const body = document.body;
     const settingsToggle = document.getElementById('settingsToggle');
     const settingsPanel = document.getElementById('settingsPanel');
@@ -247,13 +272,11 @@
 
     let currentLang = 'tr';
 
-    // Ayarlar paneli aç/kapa
     settingsToggle.addEventListener('click', () => {
-      const isOpen = settingsPanel.classList.toggle('open');
-      settingsPanel.setAttribute('aria-hidden', !isOpen);
+      const open = settingsPanel.classList.toggle('open');
+      settingsPanel.setAttribute('aria-hidden', !open);
     });
 
-    // Karanlık mod toggle
     darkModeToggle.addEventListener('change', () => {
       if(darkModeToggle.checked) {
         body.classList.add('dark');
@@ -262,7 +285,6 @@
       }
     });
 
-    // Dil değiştir
     langSelect.addEventListener('change', () => {
       currentLang = langSelect.value;
       updateTexts();
@@ -271,21 +293,17 @@
     function updateTexts() {
       msgInput.placeholder = texts[currentLang].placeholder;
       sendBtn.textContent = texts[currentLang].sendBtn;
-      settingsToggle.textContent = "⚙️";
-      // Başlık vb. statik bırakıldı ama geliştirilebilir
     }
-
     updateTexts();
 
-    // Socket.io bağlantısı
     const socket = io();
 
     socket.on('connect', () => {
-      appendSystemMessage(currentLang === 'tr' ? 'Sohbete bağlandınız.' : 'Connected to chat.');
+      appendSystemMessage(texts[currentLang].connected);
     });
 
     socket.on('disconnect', () => {
-      appendSystemMessage(currentLang === 'tr' ? 'Sohbet bağlantısı kesildi.' : 'Disconnected from chat.');
+      appendSystemMessage(texts[currentLang].disconnected);
     });
 
     socket.on('full', (msg) => {
@@ -301,40 +319,48 @@
       appendChatMessage(data.message, isSelf);
     });
 
-    // Mesaj gönderme
-    inputArea.addEventListener('submit', (e) => {
+    inputArea.addEventListener('submit', e => {
       e.preventDefault();
       const msg = msgInput.value.trim();
-      if(msg.length === 0) return;
+      if(!msg) return;
       socket.emit('chat message', msg);
       msgInput.value = '';
       msgInput.focus();
     });
 
-    // Mesaj ekleme fonksiyonu
     function appendChatMessage(message, isSelf) {
       const div = document.createElement('div');
       div.classList.add('message');
       div.classList.add(isSelf ? 'self' : 'other');
-      div.textContent = message;
+
+      if(!isSelf) {
+        const senderTag = document.createElement('div');
+        senderTag.className = 'sender';
+        senderTag.textContent = 'Karşı taraf';
+        div.appendChild(senderTag);
+      }
+
+      const msgText = document.createElement('div');
+      msgText.textContent = message;
+      div.appendChild(msgText);
+
       chatContainer.appendChild(div);
       chatContainer.scrollTop = chatContainer.scrollHeight;
-      // Animasyon tetikleme için
+
       requestAnimationFrame(() => {
         div.style.opacity = '1';
         div.style.transform = 'translateY(0)';
       });
     }
 
-    // Sistem mesajı ekle
     function appendSystemMessage(message) {
       const div = document.createElement('div');
-      div.classList.add('message');
-      div.style.background = '#888';
+      div.className = 'message';
+      div.style.backgroundColor = '#888';
       div.style.color = '#fff';
       div.style.textAlign = 'center';
       div.style.fontStyle = 'italic';
-      div.style.borderRadius = '10px';
+      div.style.borderRadius = '12px';
       div.textContent = message;
       chatContainer.appendChild(div);
       chatContainer.scrollTop = chatContainer.scrollHeight;
